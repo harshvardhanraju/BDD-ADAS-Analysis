@@ -1,0 +1,38 @@
+{
+  "car": {
+    "ap": 0.006911855210622389,
+    "num_gt": 988,
+    "num_pred": 9995
+  },
+  "truck": {
+    "ap": 0.0,
+    "num_gt": 53,
+    "num_pred": 0
+  },
+  "bus": {
+    "ap": 0.0,
+    "num_gt": 16,
+    "num_pred": 0
+  },
+  "train": {
+    "ap": 0.0,
+    "num_gt": 0,
+    "num_pred": 0
+  },
+  "rider": {
+    "ap": 0.0,
+    "num_gt": 7,
+    "num_pred": 0
+  },
+  "traffic sign": {
+    "ap": 0.0,
+    "num_gt": 294,
+    "num_pred": 0
+  },
+  "traffic light": {
+    "ap": 0.0,
+    "num_gt": 224,
+    "num_pred": 0
+  },
+  "mAP": 0.0009874078872317699
+}
