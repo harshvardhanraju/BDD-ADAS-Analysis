@@ -5,81 +5,128 @@ This module creates a professional PDF report combining all analysis results,
 visualizations, and insights into a single comprehensive document.
 """
 
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_pdf import PdfPages
-import matplotlib.image as mpimg
-import pandas as pd
-import numpy as np
 import json
-from pathlib import Path
-import seaborn as sns
-from datetime import datetime
 import textwrap
+from datetime import datetime
+from pathlib import Path
+
+import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from matplotlib.backends.backend_pdf import PdfPages
 
 # Set style for consistent plotting
-plt.style.use('default')
-plt.rcParams['figure.figsize'] = (16, 10)
-plt.rcParams['font.size'] = 10
-plt.rcParams['axes.titlesize'] = 14
-plt.rcParams['axes.labelsize'] = 12
+plt.style.use("default")
+plt.rcParams["figure.figsize"] = (16, 10)
+plt.rcParams["font.size"] = 10
+plt.rcParams["axes.titlesize"] = 14
+plt.rcParams["axes.labelsize"] = 12
+
 
 class BDDAnalysisReportGenerator:
     """Generate comprehensive PDF report for BDD100K analysis."""
-    
-    def __init__(self, analysis_dir: str = "data/analysis", output_file: str = "BDD100K_Analysis_Report.pdf"):
-        """Initialize report generator."""
+
+    def __init__(
+        self,
+        analysis_dir: str = "data/analysis",
+        output_file: str = "BDD100K_Analysis_Report.pdf",
+    ):
+        """
+        Initialize report generator.
+
+        Args:
+            analysis_dir: Directory containing analysis results
+            output_file: Name of output PDF report file
+        """
         self.analysis_dir = Path(analysis_dir)
         self.output_file = output_file
         self.plots_dir = self.analysis_dir / "plots"
         self.processed_dir = self.analysis_dir / "processed"
-        
+
         # Load processed data
         self.train_data = None
         self.val_data = None
         self.combined_data = None
         self.stats = None
-        
+
         self._load_data()
-    
+
     def _load_data(self):
-        """Load processed data and statistics."""
+        """
+        Load processed data and statistics from CSV and JSON files.
+
+        Loads train/validation data and parsing statistics for report generation.
+        """
         try:
             self.train_data = pd.read_csv(self.processed_dir / "train_annotations.csv")
             self.val_data = pd.read_csv(self.processed_dir / "val_annotations.csv")
-            self.combined_data = pd.concat([self.train_data, self.val_data], ignore_index=True)
-            
-            with open(self.processed_dir / "parsing_statistics.json", 'r') as f:
+            self.combined_data = pd.concat(
+                [self.train_data, self.val_data], ignore_index=True
+            )
+
+            with open(self.processed_dir / "parsing_statistics.json", "r") as f:
                 self.stats = json.load(f)
         except Exception as e:
             print(f"Warning: Could not load data - {e}")
-    
+
     def create_title_page(self, pdf):
-        """Create professional title page."""
+        """
+        Create professional title page for the PDF report.
+
+        Args:
+            pdf: PdfPages object for saving the page
+        """
         fig, ax = plt.subplots(figsize=(16, 10))
-        ax.axis('off')
-        
+        ax.axis("off")
+
         # Title
-        ax.text(0.5, 0.8, 'BDD100K Dataset', 
-               horizontalalignment='center', fontsize=32, fontweight='bold',
-               transform=ax.transAxes, color='#1f77b4')
-        
-        ax.text(0.5, 0.75, 'Comprehensive Analysis Report', 
-               horizontalalignment='center', fontsize=24, fontweight='bold',
-               transform=ax.transAxes, color='#2c3e50')
-        
+        ax.text(
+            0.5,
+            0.8,
+            "BDD100K Dataset",
+            horizontalalignment="center",
+            fontsize=32,
+            fontweight="bold",
+            transform=ax.transAxes,
+            color="#1f77b4",
+        )
+
+        ax.text(
+            0.5,
+            0.75,
+            "Comprehensive Analysis Report",
+            horizontalalignment="center",
+            fontsize=24,
+            fontweight="bold",
+            transform=ax.transAxes,
+            color="#2c3e50",
+        )
+
         # Subtitle
-        ax.text(0.5, 0.65, 'Object Detection Dataset Analysis', 
-               horizontalalignment='center', fontsize=18,
-               transform=ax.transAxes, color='#34495e')
-        
+        ax.text(
+            0.5,
+            0.65,
+            "Object Detection Dataset Analysis",
+            horizontalalignment="center",
+            fontsize=18,
+            transform=ax.transAxes,
+            color="#34495e",
+        )
+
         # Key metrics box
         if self.combined_data is not None:
-            total_images = self.combined_data['image_name'].nunique()
-            total_objects = len(self.combined_data[self.combined_data['category'].notna()])
-            num_classes = self.combined_data['category'].nunique()
-            
+            total_images = self.combined_data["image_name"].nunique()
+            total_objects = len(
+                self.combined_data[self.combined_data["category"].notna()]
+            )
+            num_classes = self.combined_data["category"].nunique()
+
             # Create metrics box
-            box_props = dict(boxstyle="round,pad=0.02", facecolor='lightblue', alpha=0.7)
+            box_props = dict(
+                boxstyle="round,pad=0.02", facecolor="lightblue", alpha=0.7
+            )
             metrics_text = f"""
 📊 Dataset Overview
 
@@ -94,36 +141,61 @@ class BDDAnalysisReportGenerator:
 ✓ Image Characteristics Analysis
 ✓ Data Quality Assessment
 """
-            ax.text(0.5, 0.4, metrics_text, 
-                   horizontalalignment='center', fontsize=14,
-                   transform=ax.transAxes, bbox=box_props)
-        
+            ax.text(
+                0.5,
+                0.4,
+                metrics_text,
+                horizontalalignment="center",
+                fontsize=14,
+                transform=ax.transAxes,
+                bbox=box_props,
+            )
+
         # Footer
-        ax.text(0.5, 0.1, 'Generated by BDD100K Analysis Toolkit', 
-               horizontalalignment='center', fontsize=12, style='italic',
-               transform=ax.transAxes, color='#7f8c8d')
-        
-        pdf.savefig(fig, bbox_inches='tight')
+        ax.text(
+            0.5,
+            0.1,
+            "Generated by BDD100K Analysis Toolkit",
+            horizontalalignment="center",
+            fontsize=12,
+            style="italic",
+            transform=ax.transAxes,
+            color="#7f8c8d",
+        )
+
+        pdf.savefig(fig, bbox_inches="tight")
         plt.close()
-    
+
     def create_executive_summary_page(self, pdf):
-        """Create executive summary page."""
+        """
+        Create executive summary page with key findings and insights.
+
+        Args:
+            pdf: PdfPages object for saving the page
+        """
         fig, ax = plt.subplots(figsize=(16, 10))
-        ax.axis('off')
-        
-        ax.text(0.5, 0.95, 'Executive Summary', 
-               horizontalalignment='center', fontsize=24, fontweight='bold',
-               transform=ax.transAxes, color='#2c3e50')
-        
+        ax.axis("off")
+
+        ax.text(
+            0.5,
+            0.95,
+            "Executive Summary",
+            horizontalalignment="center",
+            fontsize=24,
+            fontweight="bold",
+            transform=ax.transAxes,
+            color="#2c3e50",
+        )
+
         if self.combined_data is not None:
             # Calculate key insights
-            class_data = self.combined_data[self.combined_data['category'].notna()]
-            class_counts = class_data['category'].value_counts()
-            
+            class_data = self.combined_data[self.combined_data["category"].notna()]
+            class_counts = class_data["category"].value_counts()
+
             most_common = class_counts.index[0]
             least_common = class_counts.index[-1]
             imbalance_ratio = class_counts.iloc[0] / class_counts.iloc[-1]
-            
+
             summary_text = f"""
 🔍 KEY FINDINGS
 
@@ -173,183 +245,294 @@ Following these recommendations should result in:
 • Reduced spatial bias in predictions
 • Better generalization to real-world scenarios
 """
-            
-            ax.text(0.05, 0.85, summary_text, 
-                   horizontalalignment='left', fontsize=11, 
-                   transform=ax.transAxes, verticalalignment='top',
-                   family='monospace')
-        
-        pdf.savefig(fig, bbox_inches='tight')
+
+            ax.text(
+                0.05,
+                0.85,
+                summary_text,
+                horizontalalignment="left",
+                fontsize=11,
+                transform=ax.transAxes,
+                verticalalignment="top",
+                family="monospace",
+            )
+
+        pdf.savefig(fig, bbox_inches="tight")
         plt.close()
-    
+
     def create_dataset_overview_page(self, pdf):
-        """Create dataset overview with key statistics."""
+        """
+        Create dataset overview page with comprehensive statistics.
+
+        Args:
+            pdf: PdfPages object for saving the page
+        """
         fig = plt.figure(figsize=(16, 10))
         gs = fig.add_gridspec(3, 3, hspace=0.3, wspace=0.3)
-        
+
         # Title
-        fig.suptitle('Dataset Overview & Key Statistics', fontsize=20, fontweight='bold', y=0.95)
-        
+        fig.suptitle(
+            "Dataset Overview & Key Statistics", fontsize=20, fontweight="bold", y=0.95
+        )
+
         if self.combined_data is not None:
-            class_data = self.combined_data[self.combined_data['category'].notna()]
-            
+            class_data = self.combined_data[self.combined_data["category"].notna()]
+
             # 1. Class distribution pie chart
             ax1 = fig.add_subplot(gs[0, 0])
-            class_counts = class_data['category'].value_counts()
+            class_counts = class_data["category"].value_counts()
             colors = plt.cm.Set3(np.linspace(0, 1, len(class_counts)))
-            wedges, texts, autotexts = ax1.pie(class_counts.values, labels=class_counts.index, 
-                                             autopct='%1.1f%%', colors=colors, startangle=90)
-            ax1.set_title('Class Distribution', fontweight='bold')
-            
+            wedges, texts, autotexts = ax1.pie(
+                class_counts.values,
+                labels=class_counts.index,
+                autopct="%1.1f%%",
+                colors=colors,
+                startangle=90,
+            )
+            ax1.set_title("Class Distribution", fontweight="bold")
+
             # 2. Split comparison
             ax2 = fig.add_subplot(gs[0, 1])
             split_counts = [
-                len(self.train_data[self.train_data['category'].notna()]),
-                len(self.val_data[self.val_data['category'].notna()])
+                len(self.train_data[self.train_data["category"].notna()]),
+                len(self.val_data[self.val_data["category"].notna()]),
             ]
-            ax2.bar(['Train', 'Validation'], split_counts, color=['#3498db', '#e74c3c'])
-            ax2.set_title('Objects per Split', fontweight='bold')
-            ax2.set_ylabel('Number of Objects')
+            ax2.bar(["Train", "Validation"], split_counts, color=["#3498db", "#e74c3c"])
+            ax2.set_title("Objects per Split", fontweight="bold")
+            ax2.set_ylabel("Number of Objects")
             for i, v in enumerate(split_counts):
-                ax2.text(i, v + max(split_counts)*0.01, f'{v:,}', ha='center', fontweight='bold')
-            
+                ax2.text(
+                    i,
+                    v + max(split_counts) * 0.01,
+                    f"{v:,}",
+                    ha="center",
+                    fontweight="bold",
+                )
+
             # 3. Objects per image distribution
             ax3 = fig.add_subplot(gs[0, 2])
-            objects_per_image = class_data.groupby('image_name').size()
-            ax3.hist(objects_per_image.values, bins=30, alpha=0.7, color='skyblue', edgecolor='black')
-            ax3.set_title('Objects per Image Distribution', fontweight='bold')
-            ax3.set_xlabel('Number of Objects')
-            ax3.set_ylabel('Number of Images')
-            ax3.axvline(objects_per_image.mean(), color='red', linestyle='--', 
-                       label=f'Mean: {objects_per_image.mean():.1f}')
+            objects_per_image = class_data.groupby("image_name").size()
+            ax3.hist(
+                objects_per_image.values,
+                bins=30,
+                alpha=0.7,
+                color="skyblue",
+                edgecolor="black",
+            )
+            ax3.set_title("Objects per Image Distribution", fontweight="bold")
+            ax3.set_xlabel("Number of Objects")
+            ax3.set_ylabel("Number of Images")
+            ax3.axvline(
+                objects_per_image.mean(),
+                color="red",
+                linestyle="--",
+                label=f"Mean: {objects_per_image.mean():.1f}",
+            )
             ax3.legend()
-            
+
             # 4. Bounding box area distribution (log scale)
             ax4 = fig.add_subplot(gs[1, 0])
-            bbox_data = class_data.dropna(subset=['bbox_area'])
-            ax4.hist(bbox_data['bbox_area'], bins=50, alpha=0.7, color='lightgreen', edgecolor='black')
-            ax4.set_title('Bounding Box Area Distribution', fontweight='bold')
-            ax4.set_xlabel('Area (pixels²)')
-            ax4.set_ylabel('Frequency')
-            ax4.set_yscale('log')
-            ax4.axvline(bbox_data['bbox_area'].mean(), color='red', linestyle='--',
-                       label=f'Mean: {bbox_data["bbox_area"].mean():.0f}')
+            bbox_data = class_data.dropna(subset=["bbox_area"])
+            ax4.hist(
+                bbox_data["bbox_area"],
+                bins=50,
+                alpha=0.7,
+                color="lightgreen",
+                edgecolor="black",
+            )
+            ax4.set_title("Bounding Box Area Distribution", fontweight="bold")
+            ax4.set_xlabel("Area (pixels²)")
+            ax4.set_ylabel("Frequency")
+            ax4.set_yscale("log")
+            ax4.axvline(
+                bbox_data["bbox_area"].mean(),
+                color="red",
+                linestyle="--",
+                label=f'Mean: {bbox_data["bbox_area"].mean():.0f}',
+            )
             ax4.legend()
-            
+
             # 5. Aspect ratio distribution
             ax5 = fig.add_subplot(gs[1, 1])
-            aspect_ratios = bbox_data['bbox_aspect_ratio']
-            ax5.hist(aspect_ratios, bins=40, alpha=0.7, color='orange', edgecolor='black')
-            ax5.set_title('Aspect Ratio Distribution', fontweight='bold')
-            ax5.set_xlabel('Aspect Ratio (Width/Height)')
-            ax5.set_ylabel('Frequency')
-            ax5.axvline(1.0, color='black', linestyle='--', alpha=0.5, label='Square (1:1)')
-            ax5.axvline(aspect_ratios.mean(), color='red', linestyle='--',
-                       label=f'Mean: {aspect_ratios.mean():.2f}')
+            aspect_ratios = bbox_data["bbox_aspect_ratio"]
+            ax5.hist(
+                aspect_ratios, bins=40, alpha=0.7, color="orange", edgecolor="black"
+            )
+            ax5.set_title("Aspect Ratio Distribution", fontweight="bold")
+            ax5.set_xlabel("Aspect Ratio (Width/Height)")
+            ax5.set_ylabel("Frequency")
+            ax5.axvline(
+                1.0, color="black", linestyle="--", alpha=0.5, label="Square (1:1)"
+            )
+            ax5.axvline(
+                aspect_ratios.mean(),
+                color="red",
+                linestyle="--",
+                label=f"Mean: {aspect_ratios.mean():.2f}",
+            )
             ax5.legend()
-            
+
             # 6. Class frequency analysis
             ax6 = fig.add_subplot(gs[1, 2])
             class_counts_sorted = class_counts.sort_values(ascending=True)
             y_pos = np.arange(len(class_counts_sorted))
-            bars = ax6.barh(y_pos, class_counts_sorted.values, color='purple', alpha=0.7)
+            bars = ax6.barh(
+                y_pos, class_counts_sorted.values, color="purple", alpha=0.7
+            )
             ax6.set_yticks(y_pos)
             ax6.set_yticklabels(class_counts_sorted.index)
-            ax6.set_title('Class Frequency (Sorted)', fontweight='bold')
-            ax6.set_xlabel('Number of Objects')
-            ax6.set_xscale('log')
-            
+            ax6.set_title("Class Frequency (Sorted)", fontweight="bold")
+            ax6.set_xlabel("Number of Objects")
+            ax6.set_xscale("log")
+
             # Add value labels
             for i, (bar, count) in enumerate(zip(bars, class_counts_sorted.values)):
-                ax6.text(count * 1.1, bar.get_y() + bar.get_height()/2, 
-                        f'{count:,}', va='center', fontsize=9)
-            
+                ax6.text(
+                    count * 1.1,
+                    bar.get_y() + bar.get_height() / 2,
+                    f"{count:,}",
+                    va="center",
+                    fontsize=9,
+                )
+
             # 7. Summary statistics table
             ax7 = fig.add_subplot(gs[2, :])
-            ax7.axis('off')
-            
+            ax7.axis("off")
+
             # Calculate summary statistics
             stats_data = [
-                ['Total Images', f"{self.combined_data['image_name'].nunique():,}"],
-                ['Total Objects', f"{len(class_data):,}"],
-                ['Object Classes', f"{len(class_counts)}"],
-                ['Avg Objects/Image', f"{len(class_data) / self.combined_data['image_name'].nunique():.1f}"],
-                ['Most Common Class', f"{class_counts.index[0]} ({class_counts.iloc[0]:,} objects)"],
-                ['Least Common Class', f"{class_counts.index[-1]} ({class_counts.iloc[-1]:,} objects)"],
-                ['Imbalance Ratio', f"{class_counts.iloc[0] / class_counts.iloc[-1]:.0f}:1"],
-                ['Avg Bbox Area', f"{bbox_data['bbox_area'].mean():.0f} pixels²"],
-                ['Avg Aspect Ratio', f"{aspect_ratios.mean():.2f}"]
+                ["Total Images", f"{self.combined_data['image_name'].nunique():,}"],
+                ["Total Objects", f"{len(class_data):,}"],
+                ["Object Classes", f"{len(class_counts)}"],
+                [
+                    "Avg Objects/Image",
+                    f"{len(class_data) / self.combined_data['image_name'].nunique():.1f}",
+                ],
+                [
+                    "Most Common Class",
+                    f"{class_counts.index[0]} ({class_counts.iloc[0]:,} objects)",
+                ],
+                [
+                    "Least Common Class",
+                    f"{class_counts.index[-1]} ({class_counts.iloc[-1]:,} objects)",
+                ],
+                [
+                    "Imbalance Ratio",
+                    f"{class_counts.iloc[0] / class_counts.iloc[-1]:.0f}:1",
+                ],
+                ["Avg Bbox Area", f"{bbox_data['bbox_area'].mean():.0f} pixels²"],
+                ["Avg Aspect Ratio", f"{aspect_ratios.mean():.2f}"],
             ]
-            
-            table = ax7.table(cellText=stats_data, 
-                            colLabels=['Metric', 'Value'],
-                            cellLoc='left',
-                            loc='center',
-                            colWidths=[0.4, 0.6])
+
+            table = ax7.table(
+                cellText=stats_data,
+                colLabels=["Metric", "Value"],
+                cellLoc="left",
+                loc="center",
+                colWidths=[0.4, 0.6],
+            )
             table.auto_set_font_size(False)
             table.set_fontsize(12)
             table.scale(1.2, 2)
-            
+
             # Style the table
             for i in range(len(stats_data) + 1):
                 for j in range(2):
                     cell = table[i, j]
                     if i == 0:  # Header row
-                        cell.set_facecolor('#3498db')
-                        cell.set_text_props(weight='bold', color='white')
+                        cell.set_facecolor("#3498db")
+                        cell.set_text_props(weight="bold", color="white")
                     else:
-                        cell.set_facecolor('#ecf0f1' if i % 2 == 0 else 'white')
-            
-        pdf.savefig(fig, bbox_inches='tight')
+                        cell.set_facecolor("#ecf0f1" if i % 2 == 0 else "white")
+
+        pdf.savefig(fig, bbox_inches="tight")
         plt.close()
-    
+
     def add_plot_page(self, pdf, plot_file, title, description):
-        """Add a page with plot and description."""
+        """
+        Add a page containing a plot with title and detailed description.
+
+        Args:
+            pdf: PdfPages object for saving the page
+            plot_file: Path to the plot image file
+            title: Title for the plot page
+            description: Detailed description of the plot
+        """
         fig = plt.figure(figsize=(16, 10))
         gs = fig.add_gridspec(4, 1, height_ratios=[0.1, 0.7, 0.1, 0.1], hspace=0.1)
-        
+
         # Title
         ax_title = fig.add_subplot(gs[0])
-        ax_title.axis('off')
-        ax_title.text(0.5, 0.5, title, 
-                     horizontalalignment='center', fontsize=18, fontweight='bold',
-                     transform=ax_title.transAxes, color='#2c3e50')
-        
+        ax_title.axis("off")
+        ax_title.text(
+            0.5,
+            0.5,
+            title,
+            horizontalalignment="center",
+            fontsize=18,
+            fontweight="bold",
+            transform=ax_title.transAxes,
+            color="#2c3e50",
+        )
+
         # Plot
         ax_plot = fig.add_subplot(gs[1])
-        ax_plot.axis('off')
-        
+        ax_plot.axis("off")
+
         plot_path = self.plots_dir / plot_file
         if plot_path.exists():
             img = mpimg.imread(plot_path)
             ax_plot.imshow(img)
         else:
-            ax_plot.text(0.5, 0.5, f'Plot not found: {plot_file}', 
-                        horizontalalignment='center', fontsize=14,
-                        transform=ax_plot.transAxes)
-        
+            ax_plot.text(
+                0.5,
+                0.5,
+                f"Plot not found: {plot_file}",
+                horizontalalignment="center",
+                fontsize=14,
+                transform=ax_plot.transAxes,
+            )
+
         # Description
         ax_desc = fig.add_subplot(gs[2:])
-        ax_desc.axis('off')
-        
+        ax_desc.axis("off")
+
         # Wrap text for better display
         wrapped_desc = textwrap.fill(description, width=120)
-        ax_desc.text(0.05, 0.8, wrapped_desc, 
-                    horizontalalignment='left', fontsize=11,
-                    transform=ax_desc.transAxes, verticalalignment='top')
-        
-        pdf.savefig(fig, bbox_inches='tight')
+        ax_desc.text(
+            0.05,
+            0.8,
+            wrapped_desc,
+            horizontalalignment="left",
+            fontsize=11,
+            transform=ax_desc.transAxes,
+            verticalalignment="top",
+        )
+
+        pdf.savefig(fig, bbox_inches="tight")
         plt.close()
-    
+
     def create_insights_and_recommendations_page(self, pdf):
-        """Create detailed insights and recommendations page."""
+        """
+        Create detailed insights and model training recommendations page.
+
+        Args:
+            pdf: PdfPages object for saving the page
+        """
         fig, ax = plt.subplots(figsize=(16, 10))
-        ax.axis('off')
-        
-        ax.text(0.5, 0.95, 'Analysis Insights & Model Training Recommendations', 
-               horizontalalignment='center', fontsize=20, fontweight='bold',
-               transform=ax.transAxes, color='#2c3e50')
-        
+        ax.axis("off")
+
+        ax.text(
+            0.5,
+            0.95,
+            "Analysis Insights & Model Training Recommendations",
+            horizontalalignment="center",
+            fontsize=20,
+            fontweight="bold",
+            transform=ax.transAxes,
+            color="#2c3e50",
+        )
+
         insights_text = """
 🔍 DETAILED ANALYSIS INSIGHTS
 
@@ -426,82 +609,107 @@ EXPECTED PERFORMANCE GAINS:
 • Validate spatial bias hasn't been introduced
 • Ensure model generalizes beyond training distribution
 """
-        
-        ax.text(0.05, 0.88, insights_text, 
-               horizontalalignment='left', fontsize=9.5, 
-               transform=ax.transAxes, verticalalignment='top',
-               family='monospace')
-        
-        pdf.savefig(fig, bbox_inches='tight')
+
+        ax.text(
+            0.05,
+            0.88,
+            insights_text,
+            horizontalalignment="left",
+            fontsize=9.5,
+            transform=ax.transAxes,
+            verticalalignment="top",
+            family="monospace",
+        )
+
+        pdf.savefig(fig, bbox_inches="tight")
         plt.close()
-    
+
     def generate_report(self):
-        """Generate the complete PDF report."""
+        """
+        Generate the complete PDF report with all sections.
+
+        Creates comprehensive PDF report including title page, executive summary,
+        dataset overview, analysis plots, and recommendations.
+
+        Returns:
+            Path to the generated PDF report file
+        """
         print("🔄 Generating comprehensive PDF report...")
-        
+
         with PdfPages(self.output_file) as pdf:
             # Title page
             print("  📄 Creating title page...")
             self.create_title_page(pdf)
-            
+
             # Executive summary
             print("  📊 Creating executive summary...")
             self.create_executive_summary_page(pdf)
-            
+
             # Dataset overview
             print("  📈 Creating dataset overview...")
             self.create_dataset_overview_page(pdf)
-            
+
             # Add analysis plots with descriptions
             plots_info = [
-                ("class_distribution_overview.png", 
-                 "Class Distribution Analysis",
-                 "This visualization shows the overall distribution of object classes in the BDD100K dataset. The analysis reveals a severe class imbalance with cars dominating 60.2% of all objects, followed by traffic signs (20.2%) and traffic lights (15.7%). The remaining classes (truck, bus, rider, train) represent only 3.9% of the dataset combined. This imbalance presents significant challenges for model training and requires careful handling through weighted sampling, focal loss, or data augmentation strategies."),
-                
-                ("split_comparison_analysis.png",
-                 "Train vs Validation Split Analysis", 
-                 "This comprehensive comparison analyzes the distribution consistency between training and validation splits. The analysis includes stacked bar charts showing absolute counts, side-by-side comparisons, proportional views, and imbalance ratios. Key findings show that class distributions are reasonably consistent between splits, with most classes maintaining similar proportions. This consistency is crucial for reliable model evaluation and generalization assessment."),
-                
-                ("statistical_summary.png",
-                 "Statistical Summary & Distribution Analysis",
-                 "This multi-panel visualization provides key statistical insights including class imbalance metrics (Gini coefficient: 0.671, indicating high inequality), objects per image distribution (average: 17 objects), class frequency distribution, cumulative coverage analysis, and top vs bottom class comparisons. The analysis shows that 80% of objects are covered by just 3 classes, highlighting the extreme concentration in the dataset."),
-                
-                ("co_occurrence_heatmap.png",
-                 "Class Co-occurrence Pattern Analysis",
-                 "This heatmap reveals which object classes frequently appear together in the same images. High co-occurrence is observed between traffic signs and traffic lights, indicating these objects often appear in similar driving scenarios. Cars show moderate co-occurrence with all other classes, which is expected given their prevalence. These patterns can inform data augmentation strategies and help understand real-world object relationships."),
-                
-                ("bbox_dimension_analysis.png",
-                 "Bounding Box Dimension Analysis",
-                 "This analysis examines the size characteristics of bounding boxes across all objects. The distributions show significant variation in width (mean: 58.7px, std: 77.9px) and height (mean: 48.4px, std: 62.1px). The area distribution is heavily right-skewed with most objects being relatively small, but some very large objects (cars, trucks, buses) create a long tail. The aspect ratio distribution peaks around 1.28, indicating objects are typically wider than they are tall."),
-                
-                ("spatial_distribution_analysis.png",
-                 "Spatial Distribution & Position Analysis",
-                 "These heatmaps reveal clear spatial patterns in object positioning. Cars predominantly appear in the bottom-center region (road area), traffic signs cluster in upper-left and upper-right regions (roadside), and traffic lights are positioned in upper-middle areas (overhead). The grid-based analysis quantifies these patterns, showing strong positional preferences that can be leveraged for improved detection through spatial priors."),
-                
-                ("class_dimension_comparison.png",
-                 "Class-Specific Dimension Comparison",
-                 "This detailed comparison shows how bounding box dimensions vary across different object classes. Cars and trucks have the largest average areas, while traffic signs and lights have smaller, more consistent sizes. The box plots reveal the distribution spread for each class, with vehicles showing high variability and traffic infrastructure showing more consistent sizing. This information is crucial for anchor design and multi-scale detection strategies.")
+                (
+                    "class_distribution_overview.png",
+                    "Class Distribution Analysis",
+                    "This visualization shows the overall distribution of object classes in the BDD100K dataset. The analysis reveals a severe class imbalance with cars dominating 60.2% of all objects, followed by traffic signs (20.2%) and traffic lights (15.7%). The remaining classes (truck, bus, rider, train) represent only 3.9% of the dataset combined. This imbalance presents significant challenges for model training and requires careful handling through weighted sampling, focal loss, or data augmentation strategies.",
+                ),
+                (
+                    "split_comparison_analysis.png",
+                    "Train vs Validation Split Analysis",
+                    "This comprehensive comparison analyzes the distribution consistency between training and validation splits. The analysis includes stacked bar charts showing absolute counts, side-by-side comparisons, proportional views, and imbalance ratios. Key findings show that class distributions are reasonably consistent between splits, with most classes maintaining similar proportions. This consistency is crucial for reliable model evaluation and generalization assessment.",
+                ),
+                (
+                    "statistical_summary.png",
+                    "Statistical Summary & Distribution Analysis",
+                    "This multi-panel visualization provides key statistical insights including class imbalance metrics (Gini coefficient: 0.671, indicating high inequality), objects per image distribution (average: 17 objects), class frequency distribution, cumulative coverage analysis, and top vs bottom class comparisons. The analysis shows that 80% of objects are covered by just 3 classes, highlighting the extreme concentration in the dataset.",
+                ),
+                (
+                    "co_occurrence_heatmap.png",
+                    "Class Co-occurrence Pattern Analysis",
+                    "This heatmap reveals which object classes frequently appear together in the same images. High co-occurrence is observed between traffic signs and traffic lights, indicating these objects often appear in similar driving scenarios. Cars show moderate co-occurrence with all other classes, which is expected given their prevalence. These patterns can inform data augmentation strategies and help understand real-world object relationships.",
+                ),
+                (
+                    "bbox_dimension_analysis.png",
+                    "Bounding Box Dimension Analysis",
+                    "This analysis examines the size characteristics of bounding boxes across all objects. The distributions show significant variation in width (mean: 58.7px, std: 77.9px) and height (mean: 48.4px, std: 62.1px). The area distribution is heavily right-skewed with most objects being relatively small, but some very large objects (cars, trucks, buses) create a long tail. The aspect ratio distribution peaks around 1.28, indicating objects are typically wider than they are tall.",
+                ),
+                (
+                    "spatial_distribution_analysis.png",
+                    "Spatial Distribution & Position Analysis",
+                    "These heatmaps reveal clear spatial patterns in object positioning. Cars predominantly appear in the bottom-center region (road area), traffic signs cluster in upper-left and upper-right regions (roadside), and traffic lights are positioned in upper-middle areas (overhead). The grid-based analysis quantifies these patterns, showing strong positional preferences that can be leveraged for improved detection through spatial priors.",
+                ),
+                (
+                    "class_dimension_comparison.png",
+                    "Class-Specific Dimension Comparison",
+                    "This detailed comparison shows how bounding box dimensions vary across different object classes. Cars and trucks have the largest average areas, while traffic signs and lights have smaller, more consistent sizes. The box plots reveal the distribution spread for each class, with vehicles showing high variability and traffic infrastructure showing more consistent sizing. This information is crucial for anchor design and multi-scale detection strategies.",
+                ),
             ]
-            
+
             for plot_file, title, description in plots_info:
                 print(f"  🖼️  Adding plot: {title}")
                 self.add_plot_page(pdf, plot_file, title, description)
-            
+
             # Insights and recommendations
             print("  💡 Creating insights and recommendations...")
             self.create_insights_and_recommendations_page(pdf)
-            
+
             # Metadata
             d = pdf.infodict()
-            d['Title'] = 'BDD100K Dataset - Comprehensive Analysis Report'
-            d['Author'] = 'BDD100K Analysis Toolkit'
-            d['Subject'] = 'Object Detection Dataset Analysis'
-            d['Keywords'] = 'BDD100K, Object Detection, Dataset Analysis, Computer Vision'
-            d['Creator'] = 'Python Analysis Pipeline'
-            d['Producer'] = 'Matplotlib PDF Backend'
-        
+            d["Title"] = "BDD100K Dataset - Comprehensive Analysis Report"
+            d["Author"] = "BDD100K Analysis Toolkit"
+            d["Subject"] = "Object Detection Dataset Analysis"
+            d["Keywords"] = (
+                "BDD100K, Object Detection, Dataset Analysis, Computer Vision"
+            )
+            d["Creator"] = "Python Analysis Pipeline"
+            d["Producer"] = "Matplotlib PDF Backend"
+
         print(f"✅ Report generated successfully: {self.output_file}")
         return self.output_file
+
 
 if __name__ == "__main__":
     generator = BDDAnalysisReportGenerator()
