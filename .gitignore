@@ -1,0 +1,104 @@
+# Data Files - Exclude all dataset files
+data/
+*.jpg
+*.png
+*.json
+*.zip
+*.tar
+*.tar.gz
+*.csv
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+
+# Logs
+*.log
+logs/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Large model files
+*.pth
+*.pt
+*.model
+*.weights
+*.ckpt
+*.safetensors
+
+# Cache directories
+.cache/
+cache/
+
+# Analysis outputs that contain data
+data/analysis/processed/
+data/analysis/plots/*.png
+data/analysis/outliers/
+
+# Allow specific documentation and reports
+!README.md
+!*_Analysis_Report.md
+!requirements.txt
+!docker-compose.yml
+!Dockerfile

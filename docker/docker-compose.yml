@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  bdd-analysis:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8501:8501"
+    volumes:
+      - ../data:/app/data:ro  # Mount data directory as read-only
+    environment:
+      - PYTHONPATH=/app
+    container_name: bdd100k-analysis-dashboard
+    restart: unless-stopped
