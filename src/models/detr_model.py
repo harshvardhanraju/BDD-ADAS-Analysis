@@ -22,6 +22,8 @@ class BDD100KDetrConfig:
         self.class_names = [
             'car', 'truck', 'bus', 'train', 
             'rider', 'traffic_sign', 'traffic_light'
+    
+    
         ]
         
         # Class weights based on dataset analysis (inverse frequency)
