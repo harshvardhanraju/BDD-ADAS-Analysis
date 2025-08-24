@@ -51,22 +51,22 @@ class FastCachedTrainer:
         self.patience = 8  # Early stopping patience
     
     def setup_enhanced_weights(self):
-        """Setup enhanced class weights to prevent class collapse."""
-        # Strong weights to force detection of all classes
+        """Setup balanced class weights to reduce overfitting."""
+        # More balanced weights to prevent overfitting
         enhanced_weights = torch.tensor([
-            0.05,  # car - drastically reduced
-            12.0,  # truck - high weight
-            18.0,  # bus - high weight  
-            250.0, # train - extremely high weight
-            60.0,  # rider - very high weight
-            6.0,   # traffic_sign - increased weight
-            10.0   # traffic_light - increased weight
+            0.2,   # car - less aggressive reduction
+            3.0,   # truck - moderate weight (was 12.0)
+            5.0,   # bus - moderate weight (was 18.0)  
+            20.0,  # train - significantly reduced from 250.0
+            8.0,   # rider - reduced from 60.0
+            1.5,   # traffic_sign - reduced from 6.0
+            2.0    # traffic_light - reduced from 10.0
         ]).to(self.device)
         
         # Update model weights
         self.model.register_buffer('class_weights', enhanced_weights)
         
-        print("🎯 Enhanced class weights (prevent collapse):")
+        print("🎯 Balanced class weights (reduce overfitting):")
         class_names = ['car', 'truck', 'bus', 'train', 'rider', 'traffic_sign', 'traffic_light']
         for name, weight in zip(class_names, enhanced_weights):
             print(f"   • {name:15}: {weight:6.1f}x")
@@ -86,8 +86,8 @@ class FastCachedTrainer:
         
         # Differential learning rates
         self.optimizer = torch.optim.AdamW([
-            {'params': backbone_params, 'lr': 1e-5, 'weight_decay': 1e-4},
-            {'params': head_params, 'lr': 1e-4, 'weight_decay': 1e-4}
+            {'params': backbone_params, 'lr': 1e-5, 'weight_decay': 5e-4},  # Increased weight decay
+            {'params': head_params, 'lr': 1e-4, 'weight_decay': 5e-4}       # Increased weight decay
         ])
         
         # Learning rate scheduler
@@ -96,13 +96,13 @@ class FastCachedTrainer:
             min_lr=1e-7, verbose=True
         )
         
-        # Enhanced focal loss
-        self.focal_loss = FocalLoss(alpha=0.25, gamma=3.5)  # Even higher gamma
+        # Reduced focal loss to prevent overfitting
+        self.focal_loss = FocalLoss(alpha=0.25, gamma=2.0)  # Reduced from 3.5
         
         print("🔧 Optimizer setup:")
         print(f"   • Backbone LR: 1e-5")
         print(f"   • Head LR: 1e-4") 
-        print(f"   • Focal Loss gamma: 3.5")
+        print(f"   • Focal Loss gamma: 2.0 (reduced overfitting)")
         print(f"   • Scheduler: ReduceLROnPlateau")
         print()
     
@@ -147,7 +147,7 @@ class FastCachedTrainer:
         
         # Extra penalty for missing real objects
         real_object_mask = flat_targets < 7
-        enhanced_loss[real_object_mask] *= 4.0  # Quadruple penalty
+        enhanced_loss[real_object_mask] *= 2.0  # Reduced penalty to prevent overfitting
         
         # Get other loss components if available
         total_loss = enhanced_loss.mean()
@@ -409,7 +409,7 @@ def main():
     
     # Create cached datasets
     print("📦 Creating cached datasets...")
-    print("   This will load 5000 training images into memory for faster testing")
+    print("   This will load 20k training + 3k validation images to reduce overfitting")
     print()
     
     train_dataset = CachedBDD100KDataset(
@@ -419,7 +419,7 @@ def main():
         image_size=(512, 512),
         augment=True,
         cache_dir="dataset_cache",
-        max_images=5000  # Limit to 5000 images for testing
+        max_images=20000  # Increased to 20k images to reduce overfitting
     )
     
     val_dataset = CachedBDD100KDataset(
@@ -429,7 +429,7 @@ def main():
         image_size=(512, 512),
         augment=False,
         cache_dir="dataset_cache",
-        max_images=1000  # Limit validation to 1000 images
+        max_images=3000  # Increased validation to 3000 images
     )
     
     # Create data loaders
@@ -475,8 +475,8 @@ def main():
     
     # Start training
     print("🎯 Training Configuration:")
-    print("   • Enhanced class weights to prevent collapse")
-    print("   • Strong focal loss (gamma=3.5) for hard examples")
+    print("   • Balanced class weights to reduce overfitting")
+    print("   • Moderate focal loss (gamma=2.0) to reduce overfitting")
     print("   • Quadruple penalty for missed objects")
     print("   • Early stopping with patience=8")
     print("   • Cached data for maximum speed")
