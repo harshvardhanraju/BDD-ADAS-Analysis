@@ -1,4 +1,4 @@
-# DETR Model Selection Rationale for BDD100K Object Detection
+ # DETR Model Selection Rationale for BDD100K Object Detection
 
 ## Executive Summary
 

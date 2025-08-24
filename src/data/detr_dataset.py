@@ -36,7 +36,9 @@ class BDD100KDETRDataset(Dataset):
         split: str = "train",
         image_size: Tuple[int, int] = (512, 512),
         augment: bool = True,
-        max_objects: int = 100
+        max_objects: int = 100,
+        use_enhanced_augmentation: bool = True,
+        augmentation_strength: str = 'medium'
     ):
         """
         Initialize BDD100K DETR dataset.
@@ -48,10 +50,14 @@ class BDD100KDETRDataset(Dataset):
             image_size: Target image size (H, W)
             augment: Whether to apply data augmentation
             max_objects: Maximum number of objects per image
+            use_enhanced_augmentation: Whether to use enhanced augmentation strategies
+            augmentation_strength: Augmentation strength ('light', 'medium', 'strong')
         """
         self.annotations_file = Path(annotations_file)
         self.images_root = Path(images_root)
         self.split = split
+        self.use_enhanced_augmentation = use_enhanced_augmentation
+        self.augmentation_strength = augmentation_strength
         self.image_size = image_size
         self.augment = augment
         self.max_objects = max_objects
@@ -69,6 +75,9 @@ class BDD100KDETRDataset(Dataset):
         
         self.id_to_class = {v: k for k, v in self.class_mapping.items()}
         self.num_classes = len(self.class_mapping)
+        
+        # Class names for enhanced augmentation (consistent naming)
+        self.class_names = ['car', 'truck', 'bus', 'train', 'rider', 'traffic_sign', 'traffic_light']
         
         # Load annotations
         self._load_annotations()
@@ -128,8 +137,24 @@ class BDD100KDETRDataset(Dataset):
     
     def _setup_transforms(self):
         """Setup image transforms and augmentations."""
+        if self.use_enhanced_augmentation:
+            # Use enhanced augmentation from enhanced_augmentation module
+            try:
+                from .enhanced_augmentation import create_enhanced_transforms
+                enhanced_transforms = create_enhanced_transforms(
+                    image_size=self.image_size,
+                    split=self.split,
+                    augmentation_strength=self.augmentation_strength,
+                    class_names=self.class_names
+                )
+                self.transform = enhanced_transforms.transform
+                print(f"✅ Using enhanced augmentation (strength: {self.augmentation_strength})")
+                return
+            except ImportError:
+                print("⚠️  Enhanced augmentation not available, falling back to basic augmentation")
+        
         if self.augment and self.split == 'train':
-            # Training augmentations
+            # Basic training augmentations
             self.transform = A.Compose([
                 A.Resize(height=self.image_size[0], width=self.image_size[1]),
                 A.HorizontalFlip(p=0.5),
@@ -179,12 +204,15 @@ class BDD100KDETRDataset(Dataset):
         image_path = self.images_root / self.split / image_name
         
         if not image_path.exists():
-            raise FileNotFoundError(f"Image not found: {image_path}")
+            # Return a placeholder image instead of crashing
+            print(f"Warning: Image not found: {image_path}, using placeholder")
+            return np.zeros((720, 1280, 3), dtype=np.uint8)  # Standard BDD100K size
         
         # Load image using OpenCV and convert to RGB
         image = cv2.imread(str(image_path))
         if image is None:
-            raise ValueError(f"Cannot read image: {image_path}")
+            print(f"Warning: Cannot read image: {image_path}, using placeholder")
+            return np.zeros((720, 1280, 3), dtype=np.uint8)
         
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         return image
