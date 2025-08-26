@@ -177,7 +177,7 @@ def main():
                        default='data/analysis/processed_10class_corrected',
                        help='Directory with processed 10-class data')
     parser.add_argument('--images-root', type=str,
-                       default='data/raw/bdd100k_labels_release/bdd100k/images/100k',
+                       default='data/raw/bdd100k/bdd100k/images/100k',
                        help='Root directory for images')
     parser.add_argument('--batch-size', type=int, default=4,
                        help='Batch size for training')

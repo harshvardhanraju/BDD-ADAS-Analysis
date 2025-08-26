@@ -14,9 +14,19 @@ import numpy as np
 
 
 class BDD100KDetrConfig:
-    """Configuration class for BDD100K DETR model."""
+    """Configuration class for BDD100K DETR model with multiple model variants."""
     
-    def __init__(self):
+    def __init__(self, model_variant: str = "detr-resnet-50"):
+        """
+        Initialize BDD100K DETR configuration.
+        
+        Args:
+            model_variant: DETR model variant to use
+                - "detr-resnet-50": Original DETR with ResNet-50 (default)
+                - "detr-resnet-101": DETR with ResNet-101 (higher capacity)
+                - "conditional-detr": Conditional DETR (faster convergence)
+                - "deformable-detr": Deformable DETR (best performance)
+        """
         # BDD100K complete 10-class configuration
         self.num_classes = 10  # Complete set of BDD100K detection classes
         self.class_names = [
@@ -38,7 +48,11 @@ class BDD100KDetrConfig:
             0.3    # traffic_sign (18.6%)
         ])
         
-        # Model configuration
+        # Model variant configuration
+        self.model_variant = model_variant
+        self._configure_model_params()
+        
+        # Base model configuration  
         self.backbone = "resnet50"
         self.num_queries = 100
         self.hidden_dim = 256
@@ -60,6 +74,33 @@ class BDD100KDetrConfig:
         self.lr_backbone = 1e-5
         self.batch_size = 8
         self.num_epochs = 50
+        
+    def _configure_model_params(self):
+        """Configure model parameters based on variant."""
+        if self.model_variant == "detr-resnet-50":
+            self.pretrained_model_name = "facebook/detr-resnet-50"
+            self.backbone = "resnet50"
+            
+        elif self.model_variant == "detr-resnet-101":
+            self.pretrained_model_name = "facebook/detr-resnet-101"
+            self.backbone = "resnet101"
+            
+        elif self.model_variant == "conditional-detr":
+            self.pretrained_model_name = "microsoft/conditional-detr-resnet-50"
+            self.backbone = "resnet50"
+            
+        elif self.model_variant == "deformable-detr":
+            # Note: Deformable DETR might need special handling
+            self.pretrained_model_name = "sensetime/deformable-detr"
+            self.backbone = "resnet50"
+            
+        else:
+            # Default to standard DETR
+            self.pretrained_model_name = "facebook/detr-resnet-50"
+            self.backbone = "resnet50"
+            
+        print(f"Configured DETR variant: {self.model_variant}")
+        print(f"Using pretrained model: {self.pretrained_model_name}")
 
 
 class FocalLoss(nn.Module):
@@ -142,12 +183,22 @@ class BDD100KDETR(nn.Module):
         
         # Initialize model
         if pretrained:
-            print("Loading pretrained DETR model from COCO...")
-            self.model = DetrForObjectDetection.from_pretrained(
-                "facebook/detr-resnet-50",
-                config=detr_config,
-                ignore_mismatched_sizes=True
-            )
+            print(f"Loading pretrained {config.model_variant} model from COCO...")
+            try:
+                self.model = DetrForObjectDetection.from_pretrained(
+                    config.pretrained_model_name,
+                    config=detr_config,
+                    ignore_mismatched_sizes=True
+                )
+                print(f"✅ Successfully loaded {config.model_variant}")
+            except Exception as e:
+                print(f"⚠️  Failed to load {config.model_variant}, falling back to facebook/detr-resnet-50")
+                print(f"Error: {e}")
+                self.model = DetrForObjectDetection.from_pretrained(
+                    "facebook/detr-resnet-50",
+                    config=detr_config,
+                    ignore_mismatched_sizes=True
+                )
         else:
             self.model = DetrForObjectDetection(detr_config)
         

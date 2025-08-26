@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Production BDD100K 10-Class DETR Training Pipeline
 
@@ -499,9 +498,9 @@ def create_production_datasets(
     return train_dataset, val_dataset
 
 
-def create_production_model(load_pretrained: bool = True) -> BDD100KDETR:
-    """Create production DETR model with optional pretrained weights."""
-    config = BDD100KDetrConfig()
+def create_production_model(load_pretrained: bool = True, model_variant: str = "detr-resnet-50") -> BDD100KDETR:
+    """Create production DETR model with optional pretrained weights and variant selection."""
+    config = BDD100KDetrConfig(model_variant=model_variant)
     
     logger.info("Creating production DETR model...")
     logger.info(f"Classes: {config.num_classes}")
@@ -529,7 +528,7 @@ def main():
                        default='data/analysis/processed_10class_corrected',
                        help='Directory with processed 10-class data')
     parser.add_argument('--images-root', type=str,
-                       default='data/raw/bdd100k_labels_release/bdd100k/images/100k',
+                       default='data/raw/bdd100k/bdd100k/images/100k',
                        help='Root directory for images')
     parser.add_argument('--batch-size', type=int, default=16,
                        help='Batch size for training')
@@ -539,6 +538,9 @@ def main():
                        help='Image size (height width)')
     parser.add_argument('--device', type=str, default='cuda',
                        help='Device to use for training')
+    parser.add_argument('--model-variant', type=str, default='detr-resnet-50',
+                       choices=['detr-resnet-50', 'detr-resnet-101', 'conditional-detr', 'deformable-detr'],
+                       help='DETR model variant to use')
     parser.add_argument('--checkpoint-dir', type=str, 
                        default='checkpoints/production_10class',
                        help='Directory to save checkpoints')
@@ -568,6 +570,7 @@ def main():
     logger.info(f"Data directory: {args.data_dir}")
     logger.info(f"Images root: {args.images_root}")
     logger.info(f"Device: {args.device}")
+    logger.info(f"Model variant: {args.model_variant}")
     logger.info(f"Batch size: {args.batch_size}")
     logger.info(f"Epochs: {args.epochs}")
     logger.info(f"Image size: {args.image_size}")
@@ -615,7 +618,7 @@ def main():
         
         # Create model
         logger.info("\n3. Creating model...")
-        model = create_production_model(load_pretrained=True)
+        model = create_production_model(load_pretrained=True, model_variant=args.model_variant)
         
         # Verify class count
         assert train_dataset.num_classes == 10, f"Expected 10 classes, got {train_dataset.num_classes}"

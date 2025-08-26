@@ -82,3 +82,33 @@ Identify most critical failure modes of the model and then use that for further 
 5. Interpretability - GradCAM++, attention analysis, 
 
 
+timeofday_values
+daytime      36728
+night        27971
+dawn/dusk     5027
+undefined      137
+Name: count, dtype: int64
+timeofday_values
+daytime      5258
+night        3929
+dawn/dusk     778
+undefined      35
+Name: count, dtype: int64
+weather
+clear            37344
+overcast          8770
+undefined         8119
+snowy             5549
+rainy             5070
+partly cloudy     4881
+foggy              130
+Name: count, dtype: int64
+weather
+clear            5346
+overcast         1239
+undefined        1157
+snowy             769
+rainy             738
+partly cloudy     738
+foggy              13
+Name: count, dtype: int64

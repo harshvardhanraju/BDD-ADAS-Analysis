@@ -321,7 +321,7 @@ def main():
     
     parser = argparse.ArgumentParser(description='Parse BDD100K dataset with all 10 classes')
     parser.add_argument('--data-root', type=str, 
-                       default='data/raw/bdd100k_labels_release/bdd100k',
+                       default='data/raw/bdd100k/bdd100k',
                        help='Path to BDD100K dataset root')
     parser.add_argument('--output-dir', type=str,
                        default='data/analysis/processed_10class',
