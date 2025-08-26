@@ -62,22 +62,25 @@ class BDD100KDETRDataset(Dataset):
         self.augment = augment
         self.max_objects = max_objects
         
-        # Class mapping for BDD100K
+        # Complete 10-class mapping for BDD100K
         self.class_mapping = {
-            'car': 0,
-            'truck': 1, 
-            'bus': 2,
-            'train': 3,
-            'rider': 4,
-            'traffic sign': 5,
-            'traffic light': 6
+            'pedestrian': 0,
+            'rider': 1,
+            'car': 2,
+            'truck': 3,
+            'bus': 4,
+            'train': 5,
+            'motorcycle': 6,
+            'bicycle': 7,
+            'traffic light': 8,
+            'traffic sign': 9
         }
         
         self.id_to_class = {v: k for k, v in self.class_mapping.items()}
         self.num_classes = len(self.class_mapping)
         
-        # Class names for enhanced augmentation (consistent naming)
-        self.class_names = ['car', 'truck', 'bus', 'train', 'rider', 'traffic_sign', 'traffic_light']
+        # Complete class names for enhanced augmentation (consistent naming)
+        self.class_names = ['pedestrian', 'rider', 'car', 'truck', 'bus', 'train', 'motorcycle', 'bicycle', 'traffic_light', 'traffic_sign']
         
         # Load annotations
         self._load_annotations()

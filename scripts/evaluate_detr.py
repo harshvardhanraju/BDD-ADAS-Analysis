@@ -15,12 +15,169 @@ import pandas as pd
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 import cv2
+from torch.utils.data import Dataset
 
 # Add src to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.models.detr_model import create_bdd_detr_model
-from scripts.train_detr_demo import BDDDemoDataset, collate_fn
+
+
+class BDDDemoDataset(Dataset):
+    """Simplified BDD100K dataset for evaluation."""
+    
+    def __init__(self, annotations_file, images_root, split='val', max_images=1000):
+        self.annotations_file = Path(annotations_file)
+        self.images_root = Path(images_root)
+        self.split = split
+        self.max_images = max_images
+        
+        # Class mapping
+        self.class_mapping = {
+            'car': 0, 'truck': 1, 'bus': 2, 'train': 3,
+            'rider': 4, 'traffic sign': 5, 'traffic light': 6
+        }
+        
+        # Load and filter data
+        self._load_data()
+        
+        # Setup transforms
+        from torchvision import transforms
+        self.transform = transforms.Compose([
+            transforms.ToPILImage(),
+            transforms.Resize((512, 512)),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                               std=[0.229, 0.224, 0.225])
+        ])
+        
+    def _load_data(self):
+        """Load and filter annotations."""
+        print(f"Loading annotations from {self.annotations_file}")
+        df = pd.read_csv(self.annotations_file, low_memory=False)
+        df = df[df['split'] == self.split].copy()
+        
+        # Group by image and keep only images with valid objects
+        self.image_data = []
+        processed = 0
+        
+        for image_name, group in df.groupby('image_name'):
+            if processed >= self.max_images:
+                break
+                
+            # Check if image exists
+            image_path = self.images_root / self.split / image_name
+            if not image_path.exists():
+                continue
+                
+            # Get valid objects
+            objects = group[group['category'].notna()].copy()
+            valid_objects = []
+            
+            for _, obj in objects.iterrows():
+                category = obj['category']
+                if category in self.class_mapping:
+                    try:
+                        bbox = [
+                            float(obj['bbox_x1']), float(obj['bbox_y1']),
+                            float(obj['bbox_x2']), float(obj['bbox_y2'])
+                        ]
+                        # Basic validation
+                        if all(x >= 0 for x in bbox) and bbox[2] > bbox[0] and bbox[3] > bbox[1]:
+                            valid_objects.append({
+                                'class_id': self.class_mapping[category],
+                                'bbox': bbox
+                            })
+                    except (ValueError, TypeError):
+                        continue
+            
+            if valid_objects:
+                self.image_data.append({
+                    'image_name': image_name,
+                    'objects': valid_objects
+                })
+                processed += 1
+        
+        print(f"Loaded {len(self.image_data)} images with valid annotations")
+    
+    def __len__(self):
+        return len(self.image_data)
+    
+    def __getitem__(self, idx):
+        item = self.image_data[idx]
+        image_name = item['image_name']
+        objects = item['objects']
+        
+        # Load image
+        image_path = self.images_root / self.split / image_name
+        image = cv2.imread(str(image_path))
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        
+        # Get original dimensions
+        h, w = image.shape[:2]
+        
+        # Apply transforms
+        image = self.transform(image)
+        
+        # Prepare targets in DETR format
+        if objects:
+            # Convert bboxes to normalized center format
+            boxes = []
+            labels = []
+            
+            for obj in objects:
+                x1, y1, x2, y2 = obj['bbox']
+                
+                # Normalize and convert to center format
+                center_x = (x1 + x2) / 2.0 / w
+                center_y = (y1 + y2) / 2.0 / h
+                width = (x2 - x1) / w
+                height = (y2 - y1) / h
+                
+                # Clamp values
+                center_x = max(0, min(1, center_x))
+                center_y = max(0, min(1, center_y))
+                width = max(0.01, min(1, width))
+                height = max(0.01, min(1, height))
+                
+                boxes.append([center_x, center_y, width, height])
+                labels.append(obj['class_id'])
+            
+            target = {
+                'class_labels': torch.tensor(labels, dtype=torch.long),
+                'boxes': torch.tensor(boxes, dtype=torch.float32),
+                'image_id': torch.tensor([idx]),
+                'area': torch.tensor([w*h*b[2]*b[3] for b in boxes], dtype=torch.float32),
+                'iscrowd': torch.zeros(len(labels), dtype=torch.long),
+                'orig_size': torch.tensor([h, w]),
+                'size': torch.tensor([512, 512])
+            }
+        else:
+            # Empty target
+            target = {
+                'class_labels': torch.zeros((0,), dtype=torch.long),
+                'boxes': torch.zeros((0, 4), dtype=torch.float32),
+                'image_id': torch.tensor([idx]),
+                'area': torch.zeros((0,), dtype=torch.float32),
+                'iscrowd': torch.zeros((0,), dtype=torch.long),
+                'orig_size': torch.tensor([h, w]),
+                'size': torch.tensor([512, 512])
+            }
+        
+        return image, target
+
+
+def collate_fn(batch):
+    """Custom collate function for batch processing."""
+    images = []
+    targets = []
+    
+    for image, target in batch:
+        images.append(image)
+        targets.append(target)
+    
+    images = torch.stack(images, dim=0)
+    return images, targets
 
 
 def compute_iou(box1, box2):

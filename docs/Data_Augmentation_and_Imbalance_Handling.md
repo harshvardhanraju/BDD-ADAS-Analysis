@@ -93,34 +93,6 @@ A.Normalize(mean=[0.485, 0.456, 0.406],     # ImageNet statistics
 - **Pretrained Compatibility**: Matches ImageNet preprocessing for ResNet-50 backbone
 - **Numerical Stability**: Ensures proper gradient flow during training
 
-### 3. Bbox-Aware Augmentation Configuration
-
-```python
-bbox_params=A.BboxParams(
-    format='pascal_voc',                     # [x1, y1, x2, y2] format
-    label_fields=['class_labels'],           # Synchronize labels with boxes
-    min_visibility=0.3                      # Drop objects <30% visible
-)
-```
-
-**Critical Features**:
-- **Format Consistency**: Maintains pascal_voc format throughout pipeline
-- **Label Synchronization**: Ensures bounding boxes and class labels remain aligned
-- **Visibility Filtering**: Removes heavily occluded objects to avoid noisy training
-
-### 4. Validation Augmentation (Inference-Only)
-
-```python
-# Validation Transforms (no augmentation, only preprocessing)
-validation_transforms = A.Compose([
-    A.Resize(height=512, width=512),
-    A.Normalize(mean=[0.485, 0.456, 0.406], 
-                std=[0.229, 0.224, 0.225]),
-    ToTensorV2()
-])
-```
-
-**Rationale**: Validation uses only essential preprocessing to ensure consistent evaluation metrics.
 
 ## ⚖️ Class Imbalance Handling Techniques
 
@@ -235,20 +207,7 @@ sampler = WeightedRandomSampler(weights, num_samples=len(dataset))
 | **Weighted Sampling** | Balanced batches | 🟡 Future work |
 | **Oversampling** | More rare examples | 🟡 Future work |
 
-### 3. Expected Performance Improvements
 
-With full-scale training (50+ epochs, 70k images):
-
-| Class | Baseline mAP | With Imbalance Handling | Improvement |
-|-------|--------------|-------------------------|-------------|
-| **Car** | 0.30 | 0.40 | +33% |
-| **Truck** | 0.05 | 0.15 | +200% |
-| **Bus** | 0.03 | 0.12 | +300% |
-| **Train** | 0.00 | 0.05 | +∞% |
-| **Rider** | 0.01 | 0.08 | +700% |
-| **Traffic Sign** | 0.20 | 0.25 | +25% |
-| **Traffic Light** | 0.18 | 0.22 | +22% |
-| **Overall mAP** | 0.11 | 0.18 | +64% |
 
 ## 🔬 Technical Implementation Details
 
@@ -289,37 +248,7 @@ def compute_weighted_loss(self, outputs, labels):
     return total_loss
 ```
 
-### 3. Memory and Computational Overhead
 
-| Component | Memory Impact | Compute Impact |
-|-----------|---------------|----------------|
-| **Albumentations** | +15% (transform cache) | +20% (per epoch) |
-| **Focal Loss** | +5% (gradient storage) | +10% (loss computation) |
-| **Class Weights** | +0.1% (weight tensor) | +5% (weighted gradients) |
-| **Total Overhead** | **~20%** | **~35%** |
-
-## 🎯 Validation and Ablation Studies
-
-### 1. Augmentation Ablation (Theoretical)
-
-| Configuration | Expected mAP | Rationale |
-|---------------|--------------|-----------|
-| **No Augmentation** | 0.12 | Baseline performance |
-| **+ Geometric Only** | 0.14 | Basic invariance |
-| **+ Photometric** | 0.16 | Lighting robustness |
-| **+ Noise/Blur** | 0.18 | Sensor robustness |
-| **Full Pipeline** | 0.20 | Complete robustness |
-
-### 2. Imbalance Handling Ablation
-
-| Configuration | Expected Rare Class mAP | Overall mAP |
-|---------------|-------------------------|-------------|
-| **Standard Loss** | 0.02 | 0.15 |
-| **+ Class Weights** | 0.08 | 0.17 |
-| **+ Focal Loss** | 0.12 | 0.19 |
-| **+ Both Techniques** | 0.15 | 0.21 |
-
-## 🚀 Future Enhancements
 
 ### 1. Advanced Augmentation Strategies
 
@@ -364,7 +293,7 @@ class DynamicClassWeights:
         # Increase weights for poorly performing classes
 ```
 
-#### B. **Curriculum Learning**
+- Confusion matrix deep-dives
 ```python
 class CurriculumTraining:
     def get_batch(self, epoch):
@@ -372,6 +301,34 @@ class CurriculumTraining:
             return balanced_batch()    # Start with balanced data
         else:
             return full_distribution_batch()  # Gradually introduce imbalance
+'''
+Curriculum Learning = A training paradigm where the data distribution changes over time, progressing from simple/easy samples → hard/complex samples.
+
+    Classic training: random shuffle of dataset → model sees hard/easy samples equally from the start.
+
+    Curriculum training: gradually introduces complexity → smoother optimization.
+
+Why Curriculum Learning?
+
+    Stability: Model avoids getting stuck in poor local minima early.
+
+    Efficiency: Faster convergence (fewer epochs).
+
+    Performance: Often improves generalization, especially for complex tasks.
+
+📖 Example 1: Image Classification
+
+    Suppose you’re training a model to classify animals:
+
+    Easy stage: Start with clear, centered, high-resolution images (dog, cat).
+
+    Medium stage: Add images with cluttered backgrounds.
+
+    Hard stage: Add images with occlusion, noise, or small object sizes.
+
+The model learns progressively, like a student.
+'''
+
 ```
 
 #### C. **Contrastive Learning for Rare Classes**

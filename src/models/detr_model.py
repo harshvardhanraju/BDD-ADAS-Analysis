@@ -17,24 +17,25 @@ class BDD100KDetrConfig:
     """Configuration class for BDD100K DETR model."""
     
     def __init__(self):
-        # BDD100K specific configuration
-        self.num_classes = 7  # car, truck, bus, train, rider, traffic_sign, traffic_light
+        # BDD100K complete 10-class configuration
+        self.num_classes = 10  # Complete set of BDD100K detection classes
         self.class_names = [
-            'car', 'truck', 'bus', 'train', 
-            'rider', 'traffic_sign', 'traffic_light'
-    
-    
+            'pedestrian', 'rider', 'car', 'truck', 'bus', 
+            'train', 'motorcycle', 'bicycle', 'traffic_light', 'traffic_sign'
         ]
         
-        # Class weights based on dataset analysis (inverse frequency)
+        # Class weights based on complete 10-class analysis (inverse frequency weighted by safety)
         self.class_weights = torch.tensor([
-            0.1,   # car (60.2% - most frequent)
-            2.0,   # truck (2.5%)
-            3.0,   # bus (1.1%)
-            50.0,  # train (0.05% - extremely rare)
-            15.0,  # rider (0.2% - very rare)
-            0.3,   # traffic_sign (20.2%)
-            0.4    # traffic_light (15.7%)
+            1.5,   # pedestrian (7.1% - safety critical)
+            20.0,  # rider (0.35% - very rare, safety critical)  
+            0.1,   # car (55.4% - most frequent)
+            4.0,   # truck (2.32%)
+            8.0,   # bus (0.90%)
+            100.0, # train (0.01% - extremely rare)
+            35.0,  # motorcycle (0.23% - very rare, safety critical)
+            15.0,  # bicycle (0.56% - rare, safety critical)
+            0.4,   # traffic_light (14.5%)
+            0.3    # traffic_sign (18.6%)
         ])
         
         # Model configuration
