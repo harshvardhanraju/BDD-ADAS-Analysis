@@ -427,7 +427,8 @@ def create_production_datasets(
     data_dir: str, 
     images_root: str,
     image_size: Tuple[int, int] = (640, 640),
-    use_enhanced_augmentation: bool = True
+    use_enhanced_augmentation: bool = True,
+    train_subset_size: int = 20000
 ) -> Tuple[BDD100KDETRDataset, BDD100KDETRDataset]:
     """Create production training and validation datasets."""
     
@@ -437,6 +438,39 @@ def create_production_datasets(
     logger.info("Creating production datasets...")
     logger.info(f"Image size: {image_size}")
     logger.info(f"Enhanced augmentation: {use_enhanced_augmentation}")
+    logger.info(f"Training subset size: {train_subset_size:,} images")
+    
+    # Create subset of training data for memory constraints
+    if train_subset_size and train_subset_size > 0:
+        logger.info("Creating training subset to manage memory constraints...")
+        import pandas as pd
+        import numpy as np
+        
+        # Load full training annotations
+        train_df = pd.read_csv(train_annotations)
+        unique_images = train_df['image_name'].unique()
+        
+        logger.info(f"Total available training images: {len(unique_images):,}")
+        
+        # Randomly sample subset of images
+        if len(unique_images) > train_subset_size:
+            np.random.seed(42)  # For reproducibility
+            selected_images = np.random.choice(unique_images, size=train_subset_size, replace=False)
+            
+            # Filter annotations for selected images
+            subset_df = train_df[train_df['image_name'].isin(selected_images)].copy()
+            
+            # Save subset annotations
+            subset_annotations_path = train_annotations.replace('.csv', f'_subset_{train_subset_size}.csv')
+            subset_df.to_csv(subset_annotations_path, index=False)
+            
+            logger.info(f"Created training subset: {len(selected_images):,} images ({len(subset_df):,} annotations)")
+            logger.info(f"Subset saved to: {subset_annotations_path}")
+            
+            # Update train_annotations path to use subset
+            train_annotations = subset_annotations_path
+        else:
+            logger.info(f"Using all available images (requested subset size >= total images)")
     
     # Training dataset with augmentation
     train_dataset = BDD100KDETRDataset(
@@ -497,7 +531,7 @@ def main():
     parser.add_argument('--images-root', type=str,
                        default='data/raw/bdd100k_labels_release/bdd100k/images/100k',
                        help='Root directory for images')
-    parser.add_argument('--batch-size', type=int, default=8,
+    parser.add_argument('--batch-size', type=int, default=16,
                        help='Batch size for training')
     parser.add_argument('--epochs', type=int, default=50,
                        help='Number of epochs to train')
@@ -516,6 +550,8 @@ def main():
                        help='Use balanced sampling for class imbalance')
     parser.add_argument('--resume', type=str, default=None,
                        help='Path to checkpoint to resume training')
+    parser.add_argument('--train-subset-size', type=int, default=20000,
+                       help='Number of training images to use (0 for all images)')
     
     args = parser.parse_args()
     
@@ -543,7 +579,8 @@ def main():
         # Create datasets
         logger.info("\n1. Creating datasets...")
         train_dataset, val_dataset = create_production_datasets(
-            args.data_dir, args.images_root, tuple(args.image_size)
+            args.data_dir, args.images_root, tuple(args.image_size),
+            train_subset_size=args.train_subset_size
         )
         
         # Create samplers and dataloaders
