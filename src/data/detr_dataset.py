@@ -196,7 +196,12 @@ class BDD100KDETRDataset(Dataset):
     
     def _load_image(self, image_name: str) -> np.ndarray:
         """
-        Load image from disk.
+        Smart image loader that handles mixed directory structures.
+        
+        Handles BDD100K's inconsistent directory structure where:
+        - Val images are directly in val/ folder
+        - Most train images are in train/trainA/, train/trainB/ subdirectories
+        - Some train images are directly in train/ folder
         
         Args:
             image_name: Name of the image file
@@ -204,13 +209,35 @@ class BDD100KDETRDataset(Dataset):
         Returns:
             Image as numpy array in RGB format
         """
+        # Try direct path first (works for val, some train images)
         image_path = self.images_root / self.split / image_name
         
-        if not image_path.exists():
-            # Return a placeholder image instead of crashing
-            print(f"Warning: Image not found: {image_path}, using placeholder")
-            return np.zeros((720, 1280, 3), dtype=np.uint8)  # Standard BDD100K size
+        if image_path.exists():
+            return self._read_image_file(image_path)
         
+        # If not found, search in subdirectories (trainA, trainB, testA, testB)
+        split_dir = self.images_root / self.split
+        if split_dir.exists():
+            for subdir in split_dir.iterdir():
+                if subdir.is_dir():
+                    candidate_path = subdir / image_name
+                    if candidate_path.exists():
+                        return self._read_image_file(candidate_path)
+        
+        # Fallback: return placeholder with warning
+        print(f"Warning: Image not found: {image_name}, using placeholder")
+        return np.zeros((720, 1280, 3), dtype=np.uint8)  # Standard BDD100K size
+    
+    def _read_image_file(self, image_path: Path) -> np.ndarray:
+        """
+        Read and convert image file to RGB numpy array.
+        
+        Args:
+            image_path: Full path to the image file
+            
+        Returns:
+            Image as numpy array in RGB format
+        """
         # Load image using OpenCV and convert to RGB
         image = cv2.imread(str(image_path))
         if image is None:

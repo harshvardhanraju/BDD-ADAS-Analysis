@@ -89,15 +89,18 @@ class EnhancedDETRTrainer:
     
     def setup_enhanced_class_weights(self):
         """Setup enhanced class weights to prevent class collapse."""
-        # Base weights from qualitative analysis findings
+        # Base weights for complete 10-class BDD100K (based on frequency and safety importance)
         base_weights = torch.tensor([
-            0.1,   # car (dominant class - reduce weight)
-            5.0,   # truck (increase from 2.0)
-            8.0,   # bus (increase from 3.0)
-            100.0, # train (increase from 50.0)
-            30.0,  # rider (increase from 15.0)
-            2.0,   # traffic_sign (increase from 0.3)
-            2.5    # traffic_light (increase from 0.4)
+            1.5,   # pedestrian (safety critical)
+            20.0,  # rider (very rare, safety critical)  
+            0.1,   # car (most frequent - reduce weight)
+            4.0,   # truck
+            8.0,   # bus
+            100.0, # train (extremely rare)
+            35.0,  # motorcycle (very rare, safety critical)
+            15.0,  # bicycle (rare, safety critical)
+            0.4,   # traffic_light
+            0.3    # traffic_sign
         ]).to(self.device)
         
         # Apply temperature scaling to prevent extreme weights

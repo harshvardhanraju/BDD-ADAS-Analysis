@@ -130,11 +130,10 @@ def run_demo_training(
     # Setup trainer
     trainer = EnhancedDETRTrainer(
         model=model,
-        optimizer=optimizer,
-        scheduler=scheduler,
+        train_dataloader=train_dataloader,
+        val_dataloader=val_dataloader,
         device=device,
-        num_classes=num_classes,
-        checkpoint_dir="checkpoints/complete_10class_demo"
+        output_dir="checkpoints/complete_10class_demo"
     )
     
     logger.info(f"Starting demo training for {max_epochs} epoch(s)...")
@@ -149,16 +148,12 @@ def run_demo_training(
             logger.info(f"{'='*60}")
             
             # Training
-            train_metrics = trainer.train_epoch(train_dataloader, epoch)
+            train_metrics = trainer.train_epoch(epoch)
             logger.info(f"Training metrics: {train_metrics}")
             
-            # Validation
-            val_metrics = trainer.validate_epoch(val_dataloader, epoch)
+            # Validation  
+            val_metrics = trainer.validate_epoch(epoch)
             logger.info(f"Validation metrics: {val_metrics}")
-            
-            # Save checkpoint
-            checkpoint_path = trainer.save_checkpoint(epoch, train_metrics, val_metrics)
-            logger.info(f"Checkpoint saved: {checkpoint_path}")
     
     except KeyboardInterrupt:
         logger.info("Training interrupted by user")
