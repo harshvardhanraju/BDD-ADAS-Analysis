@@ -71,14 +71,14 @@ def create_demo_training_setup(data_dir: str, images_root: str, batch_size: int 
     )
     
     # Create subset for demo (use first 1000 images)
-    demo_size = min(1000, len(train_dataset))
-    val_demo_size = min(200, len(val_dataset))
+    demo_size = min(20000, len(train_dataset))
+    val_demo_size = min(2000, len(val_dataset))
     
     train_subset = torch.utils.data.Subset(train_dataset, range(demo_size))
     val_subset = torch.utils.data.Subset(val_dataset, range(val_demo_size))
     
-    logger.info(f"Demo training set: {len(train_subset)} images")
-    logger.info(f"Demo validation set: {len(val_subset)} images")
+    logger.info(f"Demo training set: {len(train_subset)} images---------------------")
+    logger.info(f"Demo validation set: {len(val_subset)} images-----------------------")
     
     # Create dataloaders
     train_dataloader = DataLoader(

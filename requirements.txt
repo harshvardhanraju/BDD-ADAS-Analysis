@@ -1,12 +1,36 @@
+# Core Data Science and ML
 numpy>=1.21.0
 pandas>=1.3.0
+scipy>=1.7.0
+scikit-learn>=1.0.0
+
+# Deep Learning Framework
+torch>=2.0.0
+torchvision>=0.15.0
+transformers>=4.21.0
+
+# Computer Vision and Image Processing
+opencv-python>=4.5.0
+Pillow>=8.3.0
+albumentations>=1.3.0
+
+# Visualization and Plotting
 matplotlib>=3.4.0
 seaborn>=0.11.0
 plotly>=5.0.0
-streamlit>=1.28.0
-Pillow>=8.3.0
-opencv-python>=4.5.0
-scipy>=1.7.0
-scikit-learn>=1.0.0
+
+# Object Detection Evaluation
+pycocotools>=2.0.6
+
+# Progress Bars and Utilities
 tqdm>=4.62.0
-albumentations>=1.3.0
+
+# Web Interface (optional)
+streamlit>=1.28.0
+
+# JSON and Data Handling
+jsonschema>=4.0.0
+
+# Advanced Analytics
+umap-learn>=0.5.0
+hdbscan>=0.8.0
