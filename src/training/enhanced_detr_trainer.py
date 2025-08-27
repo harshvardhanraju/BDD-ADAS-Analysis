@@ -83,6 +83,9 @@ class EnhancedDETRTrainer:
         self.patience_counter = 0
         self.min_delta = 1e-4
         
+        # Checkpoint management
+        self.max_checkpoints_to_keep = 10  # Can be modified externally
+        
         print(f"Enhanced DETR Trainer initialized")
         print(f"Model parameters: {sum(p.numel() for p in self.model.parameters()):,}")
         print(f"Output directory: {self.output_dir.absolute()}")
@@ -378,8 +381,15 @@ class EnhancedDETRTrainer:
                     if label in pred_labels:
                         class_predictions[class_name]['correct'] += 1
     
-    def save_checkpoint(self, epoch: int, metrics: Dict, is_best: bool = False):
-        """Save training checkpoint."""
+    def save_checkpoint(self, epoch: int, metrics: Dict, is_best: bool = False, save_frequency: int = 5):
+        """Save training checkpoint.
+        
+        Args:
+            epoch: Current epoch number
+            metrics: Training metrics
+            is_best: Whether this is the best model so far
+            save_frequency: Save every N epochs (default: 5)
+        """
         checkpoint = {
             'epoch': epoch,
             'model_state_dict': self.model.state_dict(),
@@ -392,9 +402,14 @@ class EnhancedDETRTrainer:
             'best_map': self.best_map
         }
         
-        # Save regular checkpoint
-        checkpoint_path = self.output_dir / f'checkpoint_epoch_{epoch:03d}.pth'
-        torch.save(checkpoint, checkpoint_path)
+        # Always save checkpoint at specified intervals or if it's the best
+        should_save = (epoch % save_frequency == 0) or is_best or (epoch == 1)
+        
+        if should_save:
+            # Save regular checkpoint
+            checkpoint_path = self.output_dir / f'checkpoint_epoch_{epoch:03d}.pth'
+            torch.save(checkpoint, checkpoint_path)
+            print(f"💾 Checkpoint saved: {checkpoint_path}")
         
         # Save best model
         if is_best:
@@ -402,11 +417,12 @@ class EnhancedDETRTrainer:
             torch.save(checkpoint, best_path)
             print(f"💾 Best model saved to {best_path}")
         
-        # Keep only last 3 regular checkpoints
+        # Keep configurable number of checkpoints
         checkpoints = sorted(self.output_dir.glob('checkpoint_epoch_*.pth'))
-        if len(checkpoints) > 3:
-            for old_checkpoint in checkpoints[:-3]:
+        if len(checkpoints) > self.max_checkpoints_to_keep:
+            for old_checkpoint in checkpoints[:-self.max_checkpoints_to_keep]:
                 old_checkpoint.unlink()
+                print(f"🗑️ Removed old checkpoint: {old_checkpoint.name}")
     
     def plot_training_progress(self):
         """Plot training progress."""
@@ -520,8 +536,8 @@ class EnhancedDETRTrainer:
             else:
                 self.patience_counter += 1
             
-            # Save checkpoint
-            self.save_checkpoint(epoch, {**train_metrics, **val_metrics}, is_best)
+            # Save checkpoint (save every 5 epochs and best models)
+            self.save_checkpoint(epoch, {**train_metrics, **val_metrics}, is_best, save_frequency=5)
             
             # Print epoch results
             print(f"\nEpoch {epoch}/{num_epochs}:")

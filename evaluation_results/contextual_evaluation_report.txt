@@ -5,10 +5,10 @@ BDD100K MODEL - CONTEXTUAL PERFORMANCE ANALYSIS
 🌤️  ENVIRONMENTAL PERFORMANCE
 --------------------------------------------------
 Weather Conditions:
-  clear        F1: 0.001 (Objects: 925)
+  clear        F1: 0.001 (Objects: 185,526)
 
 Lighting Conditions:
-  daytime      F1: 0.001 (Objects: 925)
+  daytime      F1: 0.001 (Objects: 185,526)
 
 Environmental Robustness:
   Assessment: ROBUST - Consistent across conditions
@@ -17,17 +17,17 @@ Environmental Robustness:
 📏 OBJECT CHARACTERISTICS PERFORMANCE
 --------------------------------------------------
 Object Size Performance:
-  tiny     F1: 0.000 (Avg Area: 159 px²)
-  small    F1: 0.000 (Avg Area: 538 px²)
-  medium   F1: 0.000 (Avg Area: 3234 px²)
-  large    F1: 0.001 (Avg Area: 44960 px²)
+  tiny     F1: 0.000 (Avg Area: 161 px²)
+  small    F1: 0.000 (Avg Area: 545 px²)
+  medium   F1: 0.001 (Avg Area: 3107 px²)
+  large    F1: 0.001 (Avg Area: 43774 px²)
 
 Position Performance (Top 5):
-  middle_center F1: 0.001 (Objects: 439)
-  middle_left   F1: 0.000 (Objects: 213)
-  top_left      F1: 0.000 (Objects: 36)
-  top_center    F1: 0.000 (Objects: 36)
-  top_right     F1: 0.000 (Objects: 36)
+  middle_left   F1: 0.001 (Objects: 39,592)
+  middle_center F1: 0.000 (Objects: 84,467)
+  top_left      F1: 0.000 (Objects: 8,261)
+  top_center    F1: 0.000 (Objects: 13,645)
+  top_right     F1: 0.000 (Objects: 6,914)
 
 🛠️  IMPROVEMENT RECOMMENDATIONS
 --------------------------------------------------

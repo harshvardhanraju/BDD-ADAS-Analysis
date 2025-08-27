@@ -50,7 +50,7 @@ pip install -r requirements.txt
 ### **Option 1: Complete Pipeline Execution**
 ```bash
 # Run the complete 6-phase evaluation pipeline
-python scripts/run_complete_evaluation_pipeline.py --model-path /path/to/your/model.pth
+python3 scripts/run_complete_evaluation_pipeline.py --model-path /path/to/your/model.pth
 ```
 
 ### **Option 2: Individual Phase Execution**
@@ -58,22 +58,22 @@ Execute each phase individually for detailed control:
 
 ```bash
 # Phase 1: Quantitative Metrics Evaluation
-python scripts/run_comprehensive_evaluation.py --model-path /path/to/model.pth --dataset-path data/bdd100k
+python3 scripts/run_comprehensive_evaluation.py --model-path /path/to/model.pth --dataset-path data/bdd100k
 
 # Phase 2: Generate Visualizations
-python scripts/generate_evaluation_visualizations.py --results-path evaluation_results/evaluation_results.json
+python3 scripts/generate_evaluation_visualizations.py --results-path evaluation_results/evaluation_results.json
 
 # Phase 3: Failure Analysis
-python scripts/test_failure_analysis.py
+python3 scripts/test_failure_analysis.py
 
 # Phase 4: Advanced Clustering Analysis
-python scripts/run_phase4_analysis.py --results-path evaluation_results/failure_analysis_tests/comprehensive_failure_analysis_results.json
+python3 scripts/run_phase4_analysis.py --results-path evaluation_results/failure_analysis_tests/comprehensive_failure_analysis_results.json
 
 # Phase 5: Generate Comprehensive Reports
-python scripts/generate_comprehensive_report.py
+python3 scripts/generate_comprehensive_report.py
 
 # Phase 6: Generate Improvement Recommendations
-python scripts/generate_improvement_recommendations.py
+python3 scripts/generate_improvement_recommendations.py
 ```
 
 ### **Option 3: Testing Without Model**
@@ -81,13 +81,13 @@ Test the framework with synthetic data:
 
 ```bash
 # Test visualization components
-python scripts/test_visualizations.py
+python3 scripts/test_visualizations.py
 
 # Test failure analysis with synthetic data
-python scripts/test_failure_analysis.py
+python3 scripts/test_failure_analysis.py
 
 # Verify complete framework
-python scripts/verify_complete_framework.py
+python3 scripts/verify_complete_framework.py
 ```
 
 ## 📁 Project Structure
@@ -129,7 +129,7 @@ BDD100K-Evaluation-Framework/
 Comprehensive performance evaluation with industry-standard metrics:
 
 ```bash
-python scripts/run_comprehensive_evaluation.py \
+python3 scripts/run_comprehensive_evaluation.py \
     --model-path /path/to/model.pth \
     --dataset-path data/bdd100k \
     --output-dir evaluation_results \
@@ -147,7 +147,7 @@ python scripts/run_comprehensive_evaluation.py \
 Create comprehensive visualizations and dashboards:
 
 ```bash
-python scripts/generate_evaluation_visualizations.py \
+python3 scripts/generate_evaluation_visualizations.py \
     --results-path evaluation_results/evaluation_results.json \
     --output-dir evaluation_results/visualizations \
     --include-samples 20
@@ -163,7 +163,7 @@ python scripts/generate_evaluation_visualizations.py \
 Systematic analysis of all failure modes:
 
 ```bash
-python scripts/test_failure_analysis.py
+python3 scripts/test_failure_analysis.py
 ```
 
 **Analyzes:**
@@ -176,7 +176,7 @@ python scripts/test_failure_analysis.py
 ML-powered pattern detection and clustering:
 
 ```bash
-python scripts/run_phase4_analysis.py \
+python3 scripts/run_phase4_analysis.py \
     --results-path evaluation_results/failure_analysis_tests/comprehensive_failure_analysis_results.json \
     --output-dir evaluation_results/phase4_clustering
 ```
@@ -191,7 +191,7 @@ python scripts/run_phase4_analysis.py \
 Generate multi-stakeholder reports:
 
 ```bash
-python scripts/generate_comprehensive_report.py \
+python3 scripts/generate_comprehensive_report.py \
     --phase1-results evaluation_results/evaluation_results.json \
     --phase3-results evaluation_results/failure_analysis_tests/comprehensive_failure_analysis_results.json \
     --phase4-results evaluation_results/phase4_clustering/phase4_clustering_results.json \
@@ -208,7 +208,7 @@ python scripts/generate_comprehensive_report.py \
 Generate targeted improvement strategies:
 
 ```bash
-python scripts/generate_improvement_recommendations.py \
+python3 scripts/generate_improvement_recommendations.py \
     --comprehensive-results evaluation_results/comprehensive_reports \
     --output-dir evaluation_results/improvement_recommendations
 ```
@@ -224,19 +224,13 @@ python scripts/generate_improvement_recommendations.py \
 ### **Train DETR Model on BDD100K**
 ```bash
 # Train complete 10-class DETR model
-python scripts/train_complete_10class_detr.py \
-    --data-path data/bdd100k \
-    --output-dir models/trained_models \
-    --epochs 100 \
-    --batch-size 8 \
-    --learning-rate 1e-4 \
-    --num-workers 4
+python3 scripts/train_complete_10class_detr.py --epochs 15 --batch-size 64 --save-frequency 1 --keep-checkpoints 5
 ```
 
 ### **Evaluate Trained Model**
 ```bash
 # Evaluate with complete framework
-python scripts/run_comprehensive_evaluation.py \
+python3 scripts/run_comprehensive_evaluation.py \
     --model-path models/trained_models/checkpoint.pth \
     --dataset-path data/bdd100k \
     --split val
@@ -245,7 +239,7 @@ python scripts/run_comprehensive_evaluation.py \
 ## 🎯 **Safety-Critical Analysis**
 
 ### **Safety Metrics Configuration**
-```python
+```python3
 # Configure safety-critical analysis
 safety_config = {
     'safety_critical_classes': ['pedestrian', 'rider', 'bicycle', 'motorcycle'],
@@ -265,7 +259,7 @@ safety_config = {
 ### **Safety Analysis Commands**
 ```bash
 # Generate safety-focused analysis
-python scripts/run_comprehensive_evaluation.py \
+python3 scripts/run_comprehensive_evaluation.py \
     --model-path /path/to/model.pth \
     --safety-focus \
     --safety-threshold 0.8 \
@@ -285,7 +279,7 @@ python scripts/run_comprehensive_evaluation.py \
 ### **Benchmark Your Model**
 ```bash
 # Run performance benchmark suite
-python scripts/benchmark_model_performance.py \
+python3 scripts/benchmark_model_performance.py \
     --model-path /path/to/model.pth \
     --benchmark-suite comprehensive \
     --output-dir evaluation_results/benchmarks
@@ -294,7 +288,7 @@ python scripts/benchmark_model_performance.py \
 ## 🔧 **Configuration Options**
 
 ### **Evaluation Configuration**
-```python
+```python3
 # evaluation_config.py
 EVALUATION_CONFIG = {
     'confidence_thresholds': [0.3, 0.5, 0.7],
@@ -311,7 +305,7 @@ EVALUATION_CONFIG = {
 ```
 
 ### **Analysis Parameters**
-```python
+```python3
 # Clustering analysis parameters
 CLUSTERING_CONFIG = {
     'n_clusters_range': (2, 8),
@@ -365,7 +359,7 @@ PATTERN_CONFIG = {
 ### **Integration with MLOps Pipelines**
 ```bash
 # Example integration with MLflow
-python scripts/run_comprehensive_evaluation.py \
+python3 scripts/run_comprehensive_evaluation.py \
     --model-path /path/to/model.pth \
     --mlflow-tracking \
     --experiment-name "BDD100K-Production-Evaluation" \
@@ -375,7 +369,7 @@ python scripts/run_comprehensive_evaluation.py \
 ### **Automated Reporting Pipeline**
 ```bash
 # Set up automated evaluation pipeline
-python scripts/setup_automated_evaluation.py \
+python3 scripts/setup_automated_evaluation.py \
     --schedule "weekly" \
     --notification-email team@company.com \
     --model-registry-path /models/production
@@ -386,19 +380,19 @@ python scripts/setup_automated_evaluation.py \
 ### **Unit Tests**
 ```bash
 # Run component tests
-python -m pytest tests/unit/ -v
+python3 -m pytest tests/unit/ -v
 
 # Run integration tests
-python -m pytest tests/integration/ -v
+python3 -m pytest tests/integration/ -v
 ```
 
 ### **Framework Validation**
 ```bash
 # Complete framework verification
-python scripts/verify_complete_framework.py
+python3 scripts/verify_complete_framework.py
 
 # Performance benchmarking
-python scripts/benchmark_framework_performance.py
+python3 scripts/benchmark_framework_performance.py
 ```
 
 ## 📚 **Documentation**
@@ -430,7 +424,7 @@ pip install -r requirements-dev.txt
 pre-commit install
 
 # Run tests
-python -m pytest tests/ -v
+python3 -m pytest tests/ -v
 ```
 
 ## 🐳 **Docker Support**
@@ -442,7 +436,7 @@ docker build -t bdd100k-evaluation .
 # Run evaluation in container
 docker run -v /path/to/data:/data -v /path/to/models:/models \
     bdd100k-evaluation \
-    python scripts/run_comprehensive_evaluation.py \
+    python3 scripts/run_comprehensive_evaluation.py \
     --model-path /models/model.pth \
     --dataset-path /data/bdd100k
 ```
@@ -452,7 +446,7 @@ docker run -v /path/to/data:/data -v /path/to/models:/models \
 ### **Large-Scale Evaluation**
 ```bash
 # Multi-GPU evaluation
-python scripts/run_comprehensive_evaluation.py \
+python3 scripts/run_comprehensive_evaluation.py \
     --model-path /path/to/model.pth \
     --multi-gpu \
     --batch-size 32 \
@@ -462,7 +456,7 @@ python scripts/run_comprehensive_evaluation.py \
 ### **Memory Optimization**
 ```bash
 # Memory-efficient evaluation for large models
-python scripts/run_comprehensive_evaluation.py \
+python3 scripts/run_comprehensive_evaluation.py \
     --model-path /path/to/model.pth \
     --low-memory-mode \
     --batch-size 4 \
@@ -517,22 +511,22 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ```bash
 # Complete evaluation pipeline
-python scripts/run_comprehensive_evaluation.py --model-path /path/to/model.pth
+python3 scripts/run_comprehensive_evaluation.py --model-path /path/to/model.pth
 
 # Generate all visualizations
-python scripts/generate_evaluation_visualizations.py
+python3 scripts/generate_evaluation_visualizations.py
 
 # Run failure analysis
-python scripts/test_failure_analysis.py
+python3 scripts/test_failure_analysis.py
 
 # Create comprehensive reports
-python scripts/generate_comprehensive_report.py
+python3 scripts/generate_comprehensive_report.py
 
 # Get improvement recommendations
-python scripts/generate_improvement_recommendations.py
+python3 scripts/generate_improvement_recommendations.py
 
 # Verify framework
-python scripts/verify_complete_framework.py
+python3 scripts/verify_complete_framework.py
 ```
 
 **🎯 Framework Status: Production Ready | 🧪 Test Coverage: Comprehensive | 📊 Analysis Depth: 6-Phase Complete**

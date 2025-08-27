@@ -108,7 +108,8 @@ def run_demo_training(
     val_dataloader: DataLoader,
     num_classes: int,
     max_epochs: int = 1,
-    device: str = 'cuda'
+    device: str = 'cuda',
+    args = None
 ):
     """Run demonstration training for 1 epoch."""
     
@@ -148,12 +149,22 @@ def run_demo_training(
             logger.info(f"{'='*60}")
             
             # Training
-            train_metrics = trainer.train_epoch(epoch)
+            train_metrics = trainer.train_epoch(epoch + 1)  # Use 1-based epoch numbering
             logger.info(f"Training metrics: {train_metrics}")
             
             # Validation  
-            val_metrics = trainer.validate_epoch(epoch)
+            val_metrics = trainer.validate_epoch(epoch + 1)
             logger.info(f"Validation metrics: {val_metrics}")
+            
+            # Save checkpoint
+            is_best = val_metrics.get('val_loss', float('inf')) < trainer.best_val_loss
+            if is_best:
+                trainer.best_val_loss = val_metrics['val_loss']
+            
+            # Save checkpoint based on save_frequency
+            save_freq = args.save_frequency if args else 1
+            trainer.save_checkpoint(epoch + 1, {**train_metrics, **val_metrics}, is_best, save_frequency=save_freq)
+            logger.info(f"Checkpoint saved for epoch {epoch + 1}")
     
     except KeyboardInterrupt:
         logger.info("Training interrupted by user")
@@ -180,6 +191,10 @@ def main():
                        help='Number of epochs for demo training')
     parser.add_argument('--device', type=str, default='cuda',
                        help='Device to use for training')
+    parser.add_argument('--save-frequency', type=int, default=1,
+                       help='Save checkpoint every N epochs (default: 1 for demo)')
+    parser.add_argument('--keep-checkpoints', type=int, default=10,
+                       help='Number of checkpoints to keep (default: 10)')
     
     args = parser.parse_args()
     
@@ -215,14 +230,19 @@ def main():
         
         # Run training
         logger.info("\n3. Running demonstration training...")
+        logger.info(f"Checkpoint settings: save every {args.save_frequency} epochs, keep {args.keep_checkpoints} checkpoints")
         trainer = run_demo_training(
             model=model,
             train_dataloader=train_dataloader,
             val_dataloader=val_dataloader,
             num_classes=num_classes,
             max_epochs=args.epochs,
-            device=args.device
+            device=args.device,
+            args=args
         )
+        
+        # Update trainer to use keep_checkpoints setting
+        trainer.max_checkpoints_to_keep = args.keep_checkpoints
         
         logger.info("\n" + "="*70)
         logger.info("🎉 COMPLETE 10-CLASS DETR TRAINING PIPELINE SUCCESS!")
