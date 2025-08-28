@@ -1,0 +1,39 @@
+{
+  "classes": [
+    "pedestrian",
+    "rider",
+    "car",
+    "truck",
+    "bus",
+    "train",
+    "motorcycle",
+    "bicycle",
+    "traffic light",
+    "traffic sign"
+  ],
+  "class_to_id": {
+    "pedestrian": 0,
+    "rider": 1,
+    "car": 2,
+    "truck": 3,
+    "bus": 4,
+    "train": 5,
+    "motorcycle": 6,
+    "bicycle": 7,
+    "traffic light": 8,
+    "traffic sign": 9
+  },
+  "id_to_class": {
+    "0": "pedestrian",
+    "1": "rider",
+    "2": "car",
+    "3": "truck",
+    "4": "bus",
+    "5": "train",
+    "6": "motorcycle",
+    "7": "bicycle",
+    "8": "traffic light",
+    "9": "traffic sign"
+  },
+  "num_classes": 10
+}

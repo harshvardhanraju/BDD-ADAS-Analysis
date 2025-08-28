@@ -1,0 +1,60 @@
+{
+  "dataset_info": {
+    "total_annotations": 1356115,
+    "total_images": 79848,
+    "num_classes": 10,
+    "classes": [
+      "pedestrian",
+      "rider",
+      "car",
+      "truck",
+      "bus",
+      "train",
+      "motorcycle",
+      "bicycle",
+      "traffic light",
+      "traffic sign"
+    ]
+  },
+  "split_info": {
+    "train": {
+      "annotations": 1185310,
+      "images": 69849,
+      "avg_objects_per_image": 16.969605864078225
+    },
+    "val": {
+      "annotations": 170805,
+      "images": 9999,
+      "avg_objects_per_image": 17.082208220822082
+    }
+  },
+  "class_distribution": {
+    "overall": {
+      "car": 815717,
+      "traffic sign": 274594,
+      "traffic light": 213002,
+      "truck": 34216,
+      "bus": 13269,
+      "rider": 5166,
+      "train": 151
+    },
+    "train": {
+      "car": 713211,
+      "traffic sign": 239686,
+      "traffic light": 186117,
+      "truck": 29971,
+      "bus": 11672,
+      "rider": 4517,
+      "train": 136
+    },
+    "val": {
+      "car": 102506,
+      "traffic sign": 34908,
+      "traffic light": 26885,
+      "truck": 4245,
+      "bus": 1597,
+      "rider": 649,
+      "train": 15
+    }
+  }
+}

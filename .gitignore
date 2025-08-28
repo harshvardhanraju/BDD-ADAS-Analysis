@@ -1,8 +1,14 @@
-# Data Files - Exclude all dataset files
-data/
-*.jpg
-*.png
-*.json
+# Data Files - Exclude raw dataset files but allow analysis results
+data/raw/
+data/cached/
+data/temp/
+# Allow analysis folder with processed results
+!data/analysis/
+# But exclude large raw image files in analysis (keep analysis charts)
+data/analysis/plots/raw_*.png
+data/analysis/**/*.jpg
+# Allow specific JSON files for analysis results
+!data/analysis/**/*.json
 *.zip
 *.tar
 *.tar.gz
@@ -91,10 +97,9 @@ temp/
 .cache/
 cache/
 
-# Analysis outputs that contain data
-data/analysis/processed/
-data/analysis/plots/*.png
-data/analysis/outliers/
+# Analysis outputs - allow most files but exclude some large files
+!data/analysis/**/*.md
+!data/analysis/**/*.txt
 
 # Allow specific documentation and reports
 !README.md

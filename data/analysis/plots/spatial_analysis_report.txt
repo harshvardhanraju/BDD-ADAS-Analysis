@@ -1,0 +1,142 @@
+# BDD100K Spatial Analysis Report
+============================================================
+
+## Bounding Box Dimension Statistics
+
+### Width
+- Mean: 58.72
+- Std Dev: 77.88
+- Median: 29.76
+- Range: 0.11 - 1279.27
+
+### Height
+- Mean: 48.43
+- Std Dev: 62.05
+- Median: 27.45
+- Range: 0.17 - 719.89
+
+### Area
+- Mean: 7062.84
+- Std Dev: 23605.57
+- Median: 784.60
+- Range: 0.87 - 917709.77
+
+### Aspect Ratio
+- Mean: 1.28
+- Std Dev: 0.93
+- Median: 1.14
+- Range: 0.00 - 496.83
+
+### Top 5 Classes by Average Area
+1. train: 37708 pixels² (269×84)
+2. bus: 35550 pixels² (145×127)
+3. truck: 27728 pixels² (127×115)
+4. car: 9418 pixels² (75×58)
+5. rider: 6271 pixels² (43×82)
+
+## Spatial Distribution Analysis
+### Grid Distribution (3×3)
+- Middle Center: 86,839 (45.8%)
+- Middle Left: 39,913 (21.1%)
+- Middle Right: 21,384 (11.3%)
+- Top Center: 15,286 (8.1%)
+- Top Left: 9,179 (4.8%)
+- Top Right: 7,672 (4.0%)
+- Bottom Center: 3,960 (2.1%)
+- Bottom Left: 3,093 (1.6%)
+- Bottom Right: 2,254 (1.2%)
+
+### Spatial Clustering Analysis
+- Number of spatial clusters: 7
+- Noise points: 408
+
+## Class Spatial Patterns
+
+### Bus
+- Sample count: 13,269
+- Dominant vertical position: middle third
+- Spatial concentration score: 41.443
+- Vertical distribution:
+  - Top third: 10.2%
+  - Middle third: 86.6%
+  - Bottom third: 3.2%
+
+### Car
+- Sample count: 815,717
+- Dominant vertical position: middle third
+- Spatial concentration score: 42.372
+- Vertical distribution:
+  - Top third: 5.0%
+  - Middle third: 87.8%
+  - Bottom third: 7.1%
+
+### Rider
+- Sample count: 5,166
+- Dominant vertical position: middle third
+- Spatial concentration score: 34.677
+- Vertical distribution:
+  - Top third: 4.4%
+  - Middle third: 87.4%
+  - Bottom third: 8.2%
+
+### Traffic Light
+- Sample count: 213,002
+- Dominant vertical position: middle third
+- Spatial concentration score: 34.995
+- Vertical distribution:
+  - Top third: 38.5%
+  - Middle third: 60.3%
+  - Bottom third: 1.2%
+
+### Traffic Sign
+- Sample count: 274,594
+- Dominant vertical position: middle third
+- Spatial concentration score: 32.106
+- Vertical distribution:
+  - Top third: 36.2%
+  - Middle third: 62.2%
+  - Bottom third: 1.6%
+
+### Train
+- Sample count: 151
+- Dominant vertical position: middle third
+- Spatial concentration score: 27.734
+- Vertical distribution:
+  - Top third: 23.5%
+  - Middle third: 76.5%
+  - Bottom third: 0.0%
+
+### Truck
+- Sample count: 34,216
+- Dominant vertical position: middle third
+- Spatial concentration score: 41.894
+- Vertical distribution:
+  - Top third: 9.3%
+  - Middle third: 87.2%
+  - Bottom third: 3.5%
+
+## Spatial Anomaly Detection
+
+### Size Anomalies
+- Count: 207,454
+- Percentage: 15.30%
+- Examples:
+  - 0000f77c-6257be58.jpg (traffic sign)
+  - 0000f77c-6257be58.jpg (car)
+  - 0000f77c-6257be58.jpg (car)
+
+### Aspect Ratio Anomalies
+- Count: 72,688
+- Percentage: 5.36%
+- Examples:
+  - 0000f77c-6257be58.jpg (traffic sign)
+  - 0001542f-5ce3cf52.jpg (car)
+  - 0001542f-5ce3cf52.jpg (car)
+
+### Edge Anomalies
+- Count: 20,344
+- Percentage: 10.73%
+- Examples:
+  - 002b485a-3f6603f2.jpg (car)
+  - 002b485a-3f6603f2.jpg (car)
+  - 003c4a61-52588960.jpg (car)

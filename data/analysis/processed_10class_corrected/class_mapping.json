@@ -1,0 +1,63 @@
+{
+  "json_categories": [
+    "person",
+    "rider",
+    "car",
+    "truck",
+    "bus",
+    "train",
+    "motor",
+    "bike",
+    "traffic light",
+    "traffic sign"
+  ],
+  "standard_classes": [
+    "pedestrian",
+    "rider",
+    "car",
+    "truck",
+    "bus",
+    "train",
+    "motorcycle",
+    "bicycle",
+    "traffic light",
+    "traffic sign"
+  ],
+  "category_mapping": {
+    "person": "pedestrian",
+    "rider": "rider",
+    "car": "car",
+    "truck": "truck",
+    "bus": "bus",
+    "train": "train",
+    "motor": "motorcycle",
+    "bike": "bicycle",
+    "traffic light": "traffic light",
+    "traffic sign": "traffic sign"
+  },
+  "class_to_id": {
+    "person": 0,
+    "rider": 1,
+    "car": 2,
+    "truck": 3,
+    "bus": 4,
+    "train": 5,
+    "motor": 6,
+    "bike": 7,
+    "traffic light": 8,
+    "traffic sign": 9
+  },
+  "id_to_class": {
+    "0": "person",
+    "1": "rider",
+    "2": "car",
+    "3": "truck",
+    "4": "bus",
+    "5": "train",
+    "6": "motor",
+    "7": "bike",
+    "8": "traffic light",
+    "9": "traffic sign"
+  },
+  "num_classes": 10
+}
