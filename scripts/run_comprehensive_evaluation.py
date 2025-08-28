@@ -98,7 +98,7 @@ def create_validation_dataloader(data_dir: str, images_root: str, batch_size: in
 def generate_predictions(model: BDD100KDETR, 
                         dataloader: DataLoader, 
                         device: str,
-                        confidence_threshold: float = 0.1,
+                        confidence_threshold: float = 0.05,
                         max_batches: Optional[int] = None) -> Tuple[List[Dict], List[Dict], List[Dict]]:
     """
     Generate model predictions on validation set.
@@ -136,14 +136,14 @@ def generate_predictions(model: BDD100KDETR,
                 image_id = image_ids[i]
                 target = targets[i]
                 
-                # Extract predictions for this image
+                # Extract predictions for this image (pass image size)
                 image_predictions = extract_predictions_from_output(
-                    outputs, i, image_id, confidence_threshold
+                    outputs, i, image_id, confidence_threshold, image_size=(images.shape[-2], images.shape[-1])
                 )
                 predictions.extend(image_predictions)
                 
-                # Extract ground truth for this image
-                image_ground_truth = extract_ground_truth(target, image_id)
+                # Extract ground truth for this image (pass image size)
+                image_ground_truth = extract_ground_truth(target, image_id, image_size=(images.shape[-2], images.shape[-1]))
                 ground_truth.extend(image_ground_truth)
                 
                 # Extract metadata (using defaults for now)
@@ -169,7 +169,8 @@ def generate_predictions(model: BDD100KDETR,
 def extract_predictions_from_output(outputs: Dict, 
                                    batch_index: int, 
                                    image_id: str,
-                                   confidence_threshold: float = 0.1) -> List[Dict]:
+                                   confidence_threshold: float = 0.05,
+                                   image_size: Tuple[int, int] = (416, 416)) -> List[Dict]:
     """Extract predictions from model output for a single image."""
     predictions = []
     
@@ -187,12 +188,12 @@ def extract_predictions_from_output(outputs: Dict,
         max_prob, pred_class = torch.max(class_probs, dim=0)
         
         if max_prob.item() >= confidence_threshold:
-            # Convert normalized boxes to pixel coordinates (assuming 512x512 input)
+            # Convert normalized boxes to pixel coordinates
             box = boxes[query_idx]  # [cx, cy, w, h] normalized
             cx, cy, w, h = box
             
             # Convert to [x, y, width, height] in pixels
-            img_w, img_h = 512, 512  # Input image size
+            img_h, img_w = image_size  # Actual input image size
             x = (cx - w/2) * img_w
             y = (cy - h/2) * img_h
             width = w * img_w
@@ -209,7 +210,7 @@ def extract_predictions_from_output(outputs: Dict,
     return predictions
 
 
-def extract_ground_truth(target: Dict, image_id: str) -> List[Dict]:
+def extract_ground_truth(target: Dict, image_id: str, image_size: Tuple[int, int] = (416, 416)) -> List[Dict]:
     """Extract ground truth annotations for a single image."""
     ground_truth = []
     
@@ -227,7 +228,7 @@ def extract_ground_truth(target: Dict, image_id: str) -> List[Dict]:
             cx, cy, w, h = box
             
             # Convert to [x, y, width, height] in pixels
-            img_w, img_h = 512, 512  # Input image size
+            img_h, img_w = image_size  # Actual input image size
             x = (cx - w/2) * img_w
             y = (cy - h/2) * img_h
             width = w * img_w

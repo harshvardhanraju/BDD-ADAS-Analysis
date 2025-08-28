@@ -140,7 +140,8 @@ class BDD100KDETRDataset(Dataset):
     
     def _setup_transforms(self):
         """Setup image transforms and augmentations."""
-        if self.use_enhanced_augmentation:
+        # TEMPORARY FIX: Disable enhanced augmentation due to bbox coordinate bug
+        if False:  # self.use_enhanced_augmentation:
             # Use enhanced augmentation from enhanced_augmentation module
             try:
                 from .enhanced_augmentation import create_enhanced_transforms
@@ -323,13 +324,14 @@ class BDD100KDETRDataset(Dataset):
         target = {}
         
         if bboxes and class_labels:
-            # Normalize bboxes to [0, 1] and convert to center format
+            # Convert bboxes to normalized center format for DETR
+            # Note: bboxes are already in resized image coordinates after albumentations transform
             normalized_bboxes = []
             for bbox in bboxes:
                 x1, y1, x2, y2 = bbox
-                # Convert to normalized center format for DETR
+                # Convert to normalized center format for DETR (already in resized image space)
                 x_center = (x1 + x2) / 2.0 / self.image_size[1]
-                y_center = (y1 + y2) / 2.0 / self.image_size[0]
+                y_center = (y1 + y2) / 2.0 / self.image_size[0] 
                 width = (x2 - x1) / self.image_size[1]
                 height = (y2 - y1) / self.image_size[0]
                 normalized_bboxes.append([x_center, y_center, width, height])

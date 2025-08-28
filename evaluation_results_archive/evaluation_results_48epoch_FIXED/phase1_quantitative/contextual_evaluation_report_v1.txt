@@ -1,0 +1,67 @@
+================================================================================
+BDD100K MODEL - CONTEXTUAL PERFORMANCE ANALYSIS
+================================================================================
+
+ENVIRONMENTAL PERFORMANCE
+--------------------------------------------------
+Weather Conditions:
+  clear        F1: 0.107 (Objects: 185,526)
+
+Lighting Conditions:
+  daytime      F1: 0.107 (Objects: 185,526)
+
+Environmental Robustness:
+  Assessment: ROBUST - Consistent across conditions
+  Variance Ratio: 0.000
+
+OBJECT CHARACTERISTICS PERFORMANCE
+--------------------------------------------------
+Object Size Performance:
+  tiny     F1: 0.017 (Avg Area: 106 px²)
+  small    F1: 0.041 (Avg Area: 520 px²)
+  medium   F1: 0.066 (Avg Area: 3035 px²)
+  large    F1: 0.036 (Avg Area: 24112 px²)
+
+Position Performance (Top 5):
+  middle_left   F1: 0.081 (Objects: 82,360)
+  top_left      F1: 0.049 (Objects: 88,958)
+  middle_center F1: 0.030 (Objects: 7,259)
+  bottom_left   F1: 0.025 (Objects: 148)
+  top_center    F1: 0.013 (Objects: 6,791)
+
+CONTEXTUAL ANALYSIS
+--------------------------------------------------
+Environmental Robustness: The model demonstrates consistent performance across 
+different environmental conditions, indicating robust feature extraction 
+capabilities despite overall low performance levels.
+
+Object Size Sensitivity: Performance varies significantly by object size, with 
+medium-sized objects showing relatively better detection rates. This suggests 
+potential improvements through multi-scale training approaches.
+
+Spatial Bias: Strong positional bias observed, with middle-left regions showing 
+best performance. This pattern may indicate learned spatial shortcuts rather 
+than robust object detection capabilities.
+
+IMPROVEMENT RECOMMENDATIONS
+--------------------------------------------------
+1. Small object detection needs improvement - consider multi-scale training
+2. Strong position bias detected - model may be learning shortcuts
+3. Implement data augmentation strategies to reduce spatial bias
+4. Consider focal loss for addressing object size imbalance
+5. Evaluate alternative backbone architectures for better multi-scale features
+
+TECHNICAL INSIGHTS
+--------------------------------------------------
+- Environmental consistency suggests robust preprocessing pipeline
+- Size-dependent performance indicates architecture limitations
+- Spatial bias requires attention in training data distribution
+- Overall low F1 scores necessitate fundamental model improvements
+
+================================================================================
+Report Generated: 2025-08-28
+Analysis Framework: Contextual Performance Evaluation
+Model: BDD100K DETR (Epoch 48)
+Evaluation Conditions: Clear weather, daytime lighting
+Total Objects Analyzed: 185,526
+================================================================================

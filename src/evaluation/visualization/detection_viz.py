@@ -390,10 +390,11 @@ class DetectionVisualizer:
                        transform=ax.transAxes, fontsize=12, color='gray')
                 ax.set_title(class_name)
         
-        plt.tight_layout()
+        # Skip tight_layout to avoid sizing issues
+        plt.subplots_adjust(bottom=0.2, left=0.1, right=0.95, top=0.9)
         
         if save_path:
-            plt.savefig(save_path, dpi=300, bbox_inches='tight')
+            plt.savefig(save_path, dpi=80, bbox_inches=None)
         
         return fig
     
@@ -412,7 +413,7 @@ class DetectionVisualizer:
         Returns:
             Matplotlib figure
         """
-        fig, ax = plt.subplots(1, 1, figsize=(14, 8))
+        fig, ax = plt.subplots(1, 1, figsize=(12, 6))
         
         # Prepare data
         classes = []
@@ -453,10 +454,11 @@ class DetectionVisualizer:
         regular_patch = patches.Patch(color='steelblue', alpha=0.7, label='Regular')
         ax.legend(handles=[safety_patch, regular_patch], loc='upper right')
         
-        plt.tight_layout()
+        # Skip tight_layout to avoid sizing issues
+        plt.subplots_adjust(bottom=0.2, left=0.1, right=0.95, top=0.9)
         
         if save_path:
-            plt.savefig(save_path, dpi=300, bbox_inches='tight')
+            plt.savefig(save_path, dpi=80, bbox_inches=None)
         
         return fig
     

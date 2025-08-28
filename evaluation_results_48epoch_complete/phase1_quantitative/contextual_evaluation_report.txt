@@ -1,0 +1,35 @@
+================================================================================
+BDD100K MODEL - CONTEXTUAL PERFORMANCE ANALYSIS
+================================================================================
+
+🌤️  ENVIRONMENTAL PERFORMANCE
+--------------------------------------------------
+Weather Conditions:
+  clear        F1: 0.105 (Objects: 18,482)
+
+Lighting Conditions:
+  daytime      F1: 0.105 (Objects: 18,482)
+
+Environmental Robustness:
+  Assessment: ROBUST - Consistent across conditions
+  Variance Ratio: 0.000
+
+📏 OBJECT CHARACTERISTICS PERFORMANCE
+--------------------------------------------------
+Object Size Performance:
+  tiny     F1: 0.016 (Avg Area: 105 px²)
+  small    F1: 0.040 (Avg Area: 519 px²)
+  medium   F1: 0.067 (Avg Area: 3063 px²)
+  large    F1: 0.036 (Avg Area: 24353 px²)
+
+Position Performance (Top 5):
+  middle_left   F1: 0.076 (Objects: 8,555)
+  top_left      F1: 0.052 (Objects: 8,486)
+  middle_center F1: 0.030 (Objects: 782)
+  top_center    F1: 0.012 (Objects: 658)
+  bottom_left   F1: 0.000 (Objects: 1)
+
+🛠️  IMPROVEMENT RECOMMENDATIONS
+--------------------------------------------------
+1. Small object detection needs improvement - consider multi-scale training
+2. Strong position bias detected - model may be learning shortcuts

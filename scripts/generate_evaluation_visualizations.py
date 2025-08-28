@@ -87,7 +87,7 @@ def create_summary_dashboard(results: Dict, output_dir: Path) -> None:
     print("Creating summary dashboard...")
     
     # Create a multi-panel summary figure
-    fig, axes = plt.subplots(2, 3, figsize=(18, 12))
+    fig, axes = plt.subplots(2, 3, figsize=(15, 10))
     fig.suptitle('BDD100K Model Evaluation Dashboard', fontsize=20, fontweight='bold')
     
     # Panel 1: Overall Metrics
@@ -235,8 +235,8 @@ SAFETY STATUS
             verticalalignment='top', bbox=dict(boxstyle="round,pad=0.3", 
             facecolor='lightyellow', alpha=0.8))
     
-    plt.tight_layout()
-    plt.savefig(output_dir / "evaluation_dashboard.png", dpi=300, bbox_inches='tight')
+    plt.subplots_adjust(hspace=0.3, wspace=0.3)
+    plt.savefig(output_dir / "evaluation_dashboard.png", dpi=100, bbox_inches=None)
     plt.close(fig)
     print(f"✅ Summary dashboard saved")
 
