@@ -1,14 +1,14 @@
 # Real FiftyOne Brain Analysis Report
 
-**Generated:** 2025-08-28 15:24:38.335187
+**Generated:** 2025-08-28 16:09:15.858068
 **Dataset:** bdd100k_real_analysis
 
 ## Dataset Statistics
 
-- **Total Images:** 3
-- **Total Objects:** 52
-- **Safety-Critical Objects:** 1
-- **Classes Present:** car, motorcycle, rider, traffic light, traffic sign
+- **Total Images:** 5
+- **Total Objects:** 106
+- **Safety-Critical Objects:** 2
+- **Classes Present:** car, motorcycle, pedestrian, rider, traffic light, traffic sign
 
 ## Analysis Features
 
@@ -21,6 +21,7 @@
 ### Brain Analysis Results
 - ✅ gt_viz
 - ✅ pred_viz
+- ✅ similarity
 
 ### Available Views
 - 👁️ safety_critical
