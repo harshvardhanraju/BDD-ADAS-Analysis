@@ -43,7 +43,6 @@
   - Best/worst performing examples per class
   - Class-specific failure modes
   - Inter-class confusion analysis
-  - Rare class special analysis
 
 - [ ] **Spatial Bias Analysis**
   - Where in image each class is detected
@@ -88,12 +87,14 @@ night        27971
 dawn/dusk     5027
 undefined      137
 Name: count, dtype: int64
+
 timeofday_values
 daytime      5258
 night        3929
 dawn/dusk     778
 undefined      35
 Name: count, dtype: int64
+
 weather
 clear            37344
 overcast          8770
@@ -103,6 +104,7 @@ rainy             5070
 partly cloudy     4881
 foggy              130
 Name: count, dtype: int64
+
 weather
 clear            5346
 overcast         1239

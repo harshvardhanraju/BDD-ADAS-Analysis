@@ -1,20 +1,13 @@
 # BDD100K Object Detection Model Evaluation Framework
 
-A comprehensive evaluation framework for BDD100K object detection models designed for autonomous driving applications with advanced safety-critical analysis capabilities.
+A comprehensive evaluation framework for BDD100K object detection models designed for autonomous driving applications with  safety-critical analysis capabilities.
 
-## Overview
-
-This framework provides end-to-end evaluation capabilities for BDD100K object detection models with emphasis on safety-critical performance analysis, multi-stakeholder reporting, and actionable improvement recommendations. The framework is specifically designed for autonomous driving applications where safety and reliability are paramount.
 
 ### Key Features
 
 - **6-Phase Comprehensive Analysis Pipeline** for thorough model evaluation
 - **Safety-Critical Performance Focus** for autonomous driving applications
-- **Multi-Stakeholder Reporting** with technical and executive summaries
 - **Advanced ML-Powered Analytics** including clustering and pattern detection
-- **Actionable Improvement Recommendations** with detailed implementation guides
-- **Production-Ready Architecture** with full automation support
-- **Professional Documentation** suitable for technical and business stakeholders
 
 ### Framework Capabilities
 
@@ -23,8 +16,6 @@ This framework provides end-to-end evaluation capabilities for BDD100K object de
 - **Environmental Robustness Analysis** across weather, lighting, and scene conditions
 - **Advanced Failure Analysis** with systematic categorization
 - **Performance Clustering** and behavioral pattern detection
-- **Cost-Benefit Analysis** for improvement investments
-- **Multi-Scale Object Detection** analysis and optimization
 
 ## Installation
 
@@ -127,24 +118,15 @@ python scripts/train_complete_10class_detr.py \
 - Environmental impact visualization
 
 #### Phase 3: Failure Analysis
-- Systematic error categorization
 - Failure pattern identification
-- Critical issue prioritization
-- Root cause analysis
 
 #### Phase 4: Performance Clustering
 - Similar performance pattern grouping
-- Behavioral cluster identification
+- cluster identification
 - Pattern-based insights extraction
 - Anomaly detection
 
-#### Phase 5: Comprehensive Reporting
-- Technical evaluation reports
-- Executive summary generation
-- Multi-stakeholder documentation
-- Business impact assessment
-
-#### Phase 6: Improvement Recommendations
+#### Phase 5: Improvement Recommendations
 - Prioritized improvement strategies
 - Implementation roadmaps with timelines
 - Cost-benefit analysis
@@ -268,19 +250,6 @@ BDD-ADAS-Analysis/
 #### Archived Results  
 - **`evaluation_results_archive/`**: Historical evaluation results and experiments
 
-## Performance Benchmarks
-
-### Target Metrics (Industry Standards)
-- **Overall mAP**: >70% (production deployment)
-- **Safety-Critical mAP**: >80% (regulatory compliance)
-- **FNR for Safety Classes**: <10% (safety threshold)
-- **Environmental Robustness**: >85% consistency across conditions
-
-### Deployment Readiness Criteria
-- Overall mAP >60% minimum for initial deployment
-- Safety-critical recall >80% for compliance
-- False negative rate <10% for safety-critical classes
-- Inference speed <100ms per image for real-time applications
 
 ## Advanced Features
 
@@ -314,40 +283,6 @@ Customize data preprocessing and evaluation:
 - Data augmentation strategies and class mappings
 - Evaluation subset configurations
 
-### Evaluation Configuration
-Adjust evaluation parameters:
-- Confidence thresholds for detection
-- Safety compliance thresholds
-- Environmental condition mappings
-- Report generation parameters
-
-## Professional Documentation
-
-All reports and documentation have been professionally written without emojis or casual language, suitable for:
-- **Technical Teams**: Detailed implementation guides and metrics
-- **Executive Stakeholders**: Business impact analysis and strategic recommendations
-- **Safety Teams**: Compliance analysis and risk assessments
-- **Product Management**: Feature requirements and deployment roadmaps
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/improvement`)
-3. Make changes with appropriate tests
-4. Commit changes (`git commit -am 'Add improvement'`)
-5. Push to branch (`git push origin feature/improvement`) 
-6. Create Pull Request
-
-### Development Guidelines
-- Follow existing code structure and naming conventions
-- Add appropriate documentation for new features
-- Include unit tests for new functionality
-- Update relevant documentation and README sections
-
-## License
-
-This project is licensed under the MIT License. See LICENSE file for details.
-
 ## Citation
 
 ```bibtex
@@ -365,7 +300,3 @@ This project is licensed under the MIT License. See LICENSE file for details.
 - **Author**: Harshvardhan Raju
 - **Project**: BDD100K Object Detection Evaluation Framework
 - **Repository**: https://github.com/harshvardhanraju/BDD-ADAS-Analysis
-
----
-
-**Note**: This framework provides a comprehensive foundation for BDD100K object detection model evaluation with a focus on safety-critical applications in autonomous driving. The modular architecture allows for easy extension and customization for specific use cases and requirements.
