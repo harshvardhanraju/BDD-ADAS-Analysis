@@ -1,0 +1,1787 @@
+{
+  "evaluation_metrics": {
+    "coco_metrics": {
+      "mAP": 0.342,
+      "mAP@0.5": 0.589,
+      "mAP@0.75": 0.371,
+      "mAP_small": 0.125,
+      "mAP_medium": 0.398,
+      "mAP_large": 0.524,
+      "safety_critical_mAP": 0.289,
+      "per_class_AP": {
+        "pedestrian": 0.456,
+        "rider": 0.234,
+        "car": 0.678,
+        "truck": 0.567,
+        "bus": 0.489,
+        "train": 0.123,
+        "motorcycle": 0.345,
+        "bicycle": 0.198,
+        "traffic_light": 0.567,
+        "traffic_sign": 0.678
+      }
+    },
+    "safety_metrics": {
+      "overall_safety_score": {
+        "overall_safety_score": 0.678,
+        "weighted_recall": 0.723,
+        "safety_compliance": false
+      },
+      "per_class_safety": {
+        "pedestrian": {
+          "precision": 0.789,
+          "recall": 0.654,
+          "f1_score": 0.715,
+          "false_negative_rate": 0.346,
+          "safety_risk_level": "MEDIUM"
+        },
+        "rider": {
+          "precision": 0.456,
+          "recall": 0.423,
+          "f1_score": 0.439,
+          "false_negative_rate": 0.577,
+          "safety_risk_level": "HIGH"
+        },
+        "bicycle": {
+          "precision": 0.345,
+          "recall": 0.289,
+          "f1_score": 0.315,
+          "false_negative_rate": 0.711,
+          "safety_risk_level": "HIGH"
+        },
+        "motorcycle": {
+          "precision": 0.567,
+          "recall": 0.512,
+          "f1_score": 0.538,
+          "false_negative_rate": 0.488,
+          "safety_risk_level": "MEDIUM"
+        }
+      }
+    },
+    "contextual_metrics": {
+      "weather_performance": {
+        "clear": {
+          "mean_ap": 0.456,
+          "count": 150
+        },
+        "overcast": {
+          "mean_ap": 0.398,
+          "count": 89
+        },
+        "rainy": {
+          "mean_ap": 0.287,
+          "count": 45
+        },
+        "snowy": {
+          "mean_ap": 0.198,
+          "count": 23
+        }
+      },
+      "lighting_performance": {
+        "daytime": {
+          "mean_ap": 0.423,
+          "count": 200
+        },
+        "dawn/dusk": {
+          "mean_ap": 0.345,
+          "count": 67
+        },
+        "night": {
+          "mean_ap": 0.234,
+          "count": 78
+        }
+      },
+      "scene_performance": {
+        "highway": {
+          "mean_ap": 0.489,
+          "count": 120
+        },
+        "city_street": {
+          "mean_ap": 0.367,
+          "count": 156
+        },
+        "residential": {
+          "mean_ap": 0.401,
+          "count": 89
+        },
+        "parking_lot": {
+          "mean_ap": 0.345,
+          "count": 45
+        }
+      },
+      "position_analysis": {
+        "center": {
+          "mean_ap": 0.445,
+          "count": 180
+        },
+        "edge": {
+          "mean_ap": 0.323,
+          "count": 125
+        },
+        "corner": {
+          "mean_ap": 0.289,
+          "count": 67
+        }
+      }
+    }
+  },
+  "failure_analysis": {
+    "failure_counts": {
+      "false_negative": 12,
+      "false_positive": 12,
+      "classification_error": 3,
+      "localization_error": 4,
+      "duplicate_detection": 0
+    },
+    "failure_by_class": {
+      "false_negative": {
+        "rider": 4,
+        "car": 2,
+        "bus": 1,
+        "pedestrian": 1,
+        "traffic_sign": 2,
+        "motorcycle": 1,
+        "bicycle": 1
+      },
+      "false_positive": {
+        "pedestrian": 4,
+        "train": 1,
+        "bus": 1,
+        "truck": 1,
+        "car": 2,
+        "rider": 3
+      },
+      "localization_error": {
+        "truck": 1,
+        "train": 1,
+        "bicycle": 2
+      },
+      "classification_error": {},
+      "duplicate_detection": {}
+    },
+    "failure_cases": {
+      "false_negative": [
+        {
+          "image_id": "test_img_016",
+          "ground_truth": {
+            "category_id": 1,
+            "bbox": [
+              86,
+              437,
+              116,
+              182
+            ],
+            "area": 25606,
+            "image_id": "test_img_016",
+            "weather": "snowy",
+            "lighting": "dawn/dusk",
+            "scene_type": "residential"
+          },
+          "class_name": "rider",
+          "metadata": {
+            "image_id": "test_img_016",
+            "weather": "snowy",
+            "lighting": "dawn/dusk",
+            "scene_type": "residential"
+          },
+          "failure_type": "false_negative"
+        },
+        {
+          "image_id": "test_img_019",
+          "ground_truth": {
+            "category_id": 2,
+            "bbox": [
+              721,
+              426,
+              122,
+              87
+            ],
+            "area": 13590,
+            "image_id": "test_img_019",
+            "weather": "snowy",
+            "lighting": "daytime",
+            "scene_type": "highway"
+          },
+          "class_name": "car",
+          "metadata": {
+            "image_id": "test_img_019",
+            "weather": "clear",
+            "lighting": "daytime",
+            "scene_type": "residential"
+          }
+        },
+        {
+          "image_id": "test_img_002",
+          "ground_truth": {
+            "category_id": 4,
+            "bbox": [
+              222,
+              535,
+              178,
+              123
+            ],
+            "area": 20182,
+            "image_id": "test_img_002",
+            "weather": "clear",
+            "lighting": "dawn/dusk",
+            "scene_type": "city_street"
+          },
+          "class_name": "bus",
+          "metadata": {
+            "image_id": "test_img_002",
+            "weather": "clear",
+            "lighting": "dawn/dusk",
+            "scene_type": "city_street"
+          }
+        },
+        {
+          "image_id": "test_img_002",
+          "ground_truth": {
+            "category_id": 1,
+            "bbox": [
+              749,
+              518,
+              131,
+              181
+            ],
+            "area": 8742,
+            "image_id": "test_img_002",
+            "weather": "snowy",
+            "lighting": "dawn/dusk",
+            "scene_type": "residential"
+          },
+          "class_name": "rider",
+          "metadata": {
+            "image_id": "test_img_002",
+            "weather": "clear",
+            "lighting": "dawn/dusk",
+            "scene_type": "city_street"
+          },
+          "failure_type": "false_negative"
+        },
+        {
+          "image_id": "test_img_014",
+          "ground_truth": {
+            "category_id": 0,
+            "bbox": [
+              342,
+              83,
+              132,
+              101
+            ],
+            "area": 30445,
+            "image_id": "test_img_014",
+            "weather": "rainy",
+            "lighting": "dawn/dusk",
+            "scene_type": "city_street"
+          },
+          "class_name": "pedestrian",
+          "metadata": {
+            "image_id": "test_img_014",
+            "weather": "clear",
+            "lighting": "night",
+            "scene_type": "highway"
+          },
+          "failure_type": "false_negative"
+        },
+        {
+          "image_id": "test_img_018",
+          "ground_truth": {
+            "category_id": 1,
+            "bbox": [
+              241,
+              77,
+              57,
+              141
+            ],
+            "area": 15270,
+            "image_id": "test_img_018",
+            "weather": "rainy",
+            "lighting": "dawn/dusk",
+            "scene_type": "highway"
+          },
+          "class_name": "rider",
+          "metadata": {
+            "image_id": "test_img_018",
+            "weather": "rainy",
+            "lighting": "dawn/dusk",
+            "scene_type": "highway"
+          },
+          "failure_type": "false_negative"
+        },
+        {
+          "image_id": "test_img_006",
+          "ground_truth": {
+            "category_id": 9,
+            "bbox": [
+              511,
+              66,
+              110,
+              145
+            ],
+            "area": 6496,
+            "image_id": "test_img_006",
+            "weather": "snowy",
+            "lighting": "night",
+            "scene_type": "residential"
+          },
+          "class_name": "traffic_sign",
+          "metadata": {
+            "image_id": "test_img_006",
+            "weather": "clear",
+            "lighting": "night",
+            "scene_type": "highway"
+          }
+        },
+        {
+          "image_id": "test_img_010",
+          "ground_truth": {
+            "category_id": 1,
+            "bbox": [
+              247,
+              86,
+              145,
+              53
+            ],
+            "area": 26345,
+            "image_id": "test_img_010",
+            "weather": "clear",
+            "lighting": "daytime",
+            "scene_type": "residential"
+          },
+          "class_name": "rider",
+          "metadata": {
+            "image_id": "test_img_010",
+            "weather": "overcast",
+            "lighting": "dawn/dusk",
+            "scene_type": "highway"
+          },
+          "failure_type": "false_negative"
+        },
+        {
+          "image_id": "test_img_015",
+          "ground_truth": {
+            "category_id": 6,
+            "bbox": [
+              276,
+              127,
+              133,
+              162
+            ],
+            "area": 34631,
+            "image_id": "test_img_015",
+            "weather": "clear",
+            "lighting": "dawn/dusk",
+            "scene_type": "city_street"
+          },
+          "class_name": "motorcycle",
+          "metadata": {
+            "image_id": "test_img_015",
+            "weather": "clear",
+            "lighting": "dawn/dusk",
+            "scene_type": "city_street"
+          },
+          "failure_type": "false_negative"
+        },
+        {
+          "image_id": "test_img_005",
+          "ground_truth": {
+            "category_id": 2,
+            "bbox": [
+              426,
+              315,
+              136,
+              160
+            ],
+            "area": 18469,
+            "image_id": "test_img_005",
+            "weather": "snowy",
+            "lighting": "daytime",
+            "scene_type": "residential"
+          },
+          "class_name": "car",
+          "metadata": {
+            "image_id": "test_img_005",
+            "weather": "snowy",
+            "lighting": "daytime",
+            "scene_type": "residential"
+          }
+        },
+        {
+          "image_id": "test_img_009",
+          "ground_truth": {
+            "category_id": 9,
+            "bbox": [
+              573,
+              39,
+              160,
+              167
+            ],
+            "area": 30362,
+            "image_id": "test_img_009",
+            "weather": "snowy",
+            "lighting": "night",
+            "scene_type": "highway"
+          },
+          "class_name": "traffic_sign",
+          "metadata": {
+            "image_id": "test_img_009",
+            "weather": "snowy",
+            "lighting": "night",
+            "scene_type": "highway"
+          }
+        },
+        {
+          "image_id": "test_img_009",
+          "ground_truth": {
+            "category_id": 7,
+            "bbox": [
+              344,
+              199,
+              79,
+              148
+            ],
+            "area": 20571,
+            "image_id": "test_img_009",
+            "weather": "overcast",
+            "lighting": "dawn/dusk",
+            "scene_type": "residential"
+          },
+          "class_name": "bicycle",
+          "metadata": {
+            "image_id": "test_img_009",
+            "weather": "snowy",
+            "lighting": "night",
+            "scene_type": "highway"
+          },
+          "failure_type": "false_negative"
+        }
+      ],
+      "false_positive": [
+        {
+          "image_id": "test_img_016",
+          "prediction": {
+            "category_id": 0,
+            "bbox": [
+              311,
+              153,
+              71,
+              54
+            ],
+            "score": 0.1380056359008451,
+            "image_id": "test_img_016"
+          },
+          "class_name": "pedestrian",
+          "confidence": 0.1380056359008451,
+          "metadata": {
+            "image_id": "test_img_016",
+            "weather": "snowy",
+            "lighting": "dawn/dusk",
+            "scene_type": "residential"
+          },
+          "failure_type": "false_positive"
+        },
+        {
+          "image_id": "test_img_016",
+          "prediction": {
+            "category_id": 5,
+            "bbox": [
+              730,
+              246,
+              92,
+              165
+            ],
+            "score": 0.341381284809456,
+            "image_id": "test_img_016"
+          },
+          "class_name": "train",
+          "confidence": 0.341381284809456,
+          "metadata": {
+            "image_id": "test_img_016",
+            "weather": "snowy",
+            "lighting": "dawn/dusk",
+            "scene_type": "residential"
+          }
+        },
+        {
+          "image_id": "test_img_002",
+          "prediction": {
+            "category_id": 4,
+            "bbox": [
+              648,
+              495,
+              105,
+              99
+            ],
+            "score": 0.3536523137265885,
+            "image_id": "test_img_002"
+          },
+          "class_name": "bus",
+          "confidence": 0.3536523137265885,
+          "best_iou": 0.008993550677474706,
+          "metadata": {
+            "image_id": "test_img_002",
+            "weather": "clear",
+            "lighting": "dawn/dusk",
+            "scene_type": "city_street"
+          }
+        },
+        {
+          "image_id": "test_img_014",
+          "prediction": {
+            "category_id": 3,
+            "bbox": [
+              771,
+              365,
+              114,
+              122
+            ],
+            "score": 0.32457135468684684,
+            "image_id": "test_img_014"
+          },
+          "class_name": "truck",
+          "confidence": 0.32457135468684684,
+          "metadata": {
+            "image_id": "test_img_014",
+            "weather": "clear",
+            "lighting": "night",
+            "scene_type": "highway"
+          }
+        },
+        {
+          "image_id": "test_img_014",
+          "prediction": {
+            "category_id": 2,
+            "bbox": [
+              328,
+              287,
+              198,
+              179
+            ],
+            "score": 0.3605575750887661,
+            "image_id": "test_img_014"
+          },
+          "class_name": "car",
+          "confidence": 0.3605575750887661,
+          "metadata": {
+            "image_id": "test_img_014",
+            "weather": "clear",
+            "lighting": "night",
+            "scene_type": "highway"
+          }
+        },
+        {
+          "image_id": "test_img_018",
+          "prediction": {
+            "category_id": 1,
+            "bbox": [
+              386,
+              75,
+              116,
+              189
+            ],
+            "score": 0.16951799898377426,
+            "image_id": "test_img_018"
+          },
+          "class_name": "rider",
+          "confidence": 0.16951799898377426,
+          "metadata": {
+            "image_id": "test_img_018",
+            "weather": "rainy",
+            "lighting": "dawn/dusk",
+            "scene_type": "highway"
+          },
+          "failure_type": "false_positive"
+        },
+        {
+          "image_id": "test_img_006",
+          "prediction": {
+            "category_id": 0,
+            "bbox": [
+              78,
+              195,
+              148,
+              80
+            ],
+            "score": 0.4719227235732084,
+            "image_id": "test_img_006"
+          },
+          "class_name": "pedestrian",
+          "confidence": 0.4719227235732084,
+          "metadata": {
+            "image_id": "test_img_006",
+            "weather": "clear",
+            "lighting": "night",
+            "scene_type": "highway"
+          },
+          "failure_type": "false_positive"
+        },
+        {
+          "image_id": "test_img_008",
+          "prediction": {
+            "category_id": 0,
+            "bbox": [
+              530,
+              395,
+              69,
+              86
+            ],
+            "score": 0.5822263793967398,
+            "image_id": "test_img_008"
+          },
+          "class_name": "pedestrian",
+          "confidence": 0.5822263793967398,
+          "metadata": {
+            "image_id": "test_img_008",
+            "weather": "rainy",
+            "lighting": "daytime",
+            "scene_type": "city_street"
+          },
+          "failure_type": "false_positive"
+        },
+        {
+          "image_id": "test_img_008",
+          "prediction": {
+            "category_id": 2,
+            "bbox": [
+              225,
+              297,
+              102,
+              198
+            ],
+            "score": 0.5240938086982708,
+            "image_id": "test_img_008"
+          },
+          "class_name": "car",
+          "confidence": 0.5240938086982708,
+          "metadata": {
+            "image_id": "test_img_008",
+            "weather": "rainy",
+            "lighting": "daytime",
+            "scene_type": "city_street"
+          }
+        },
+        {
+          "image_id": "test_img_000",
+          "prediction": {
+            "category_id": 0,
+            "bbox": [
+              685,
+              403,
+              121,
+              187
+            ],
+            "score": 0.4423129742232428,
+            "image_id": "test_img_000"
+          },
+          "class_name": "pedestrian",
+          "confidence": 0.4423129742232428,
+          "metadata": {
+            "image_id": "test_img_000",
+            "weather": "overcast",
+            "lighting": "night",
+            "scene_type": "city_street"
+          },
+          "failure_type": "false_positive"
+        },
+        {
+          "image_id": "test_img_012",
+          "prediction": {
+            "category_id": 1,
+            "bbox": [
+              13,
+              541,
+              60,
+              99
+            ],
+            "score": 0.2589310226847358,
+            "image_id": "test_img_012"
+          },
+          "class_name": "rider",
+          "confidence": 0.2589310226847358,
+          "metadata": {
+            "image_id": "test_img_012",
+            "weather": "overcast",
+            "lighting": "night",
+            "scene_type": "highway"
+          },
+          "failure_type": "false_positive"
+        },
+        {
+          "image_id": "test_img_009",
+          "prediction": {
+            "category_id": 1,
+            "bbox": [
+              482,
+              98,
+              78,
+              175
+            ],
+            "score": 0.4797393380149922,
+            "image_id": "test_img_009"
+          },
+          "class_name": "rider",
+          "confidence": 0.4797393380149922,
+          "metadata": {
+            "image_id": "test_img_009",
+            "weather": "snowy",
+            "lighting": "night",
+            "scene_type": "highway"
+          },
+          "failure_type": "false_positive"
+        }
+      ],
+      "classification_error": [
+        {
+          "image_id": "test_img_002",
+          "prediction": {
+            "category_id": 8,
+            "bbox": [
+              742,
+              215,
+              57,
+              167
+            ],
+            "score": 0.6502119664822685,
+            "image_id": "test_img_002"
+          },
+          "ground_truth": {
+            "category_id": 1,
+            "bbox": [
+              731,
+              203,
+              62,
+              175
+            ],
+            "area": 25868,
+            "image_id": "test_img_002",
+            "weather": "overcast",
+            "lighting": "dawn/dusk",
+            "scene_type": "city_street"
+          },
+          "predicted_class": "traffic_light",
+          "true_class": "rider",
+          "iou": 0.6895321831453218,
+          "confidence": 0.6502119664822685,
+          "metadata": {
+            "image_id": "test_img_002",
+            "weather": "clear",
+            "lighting": "dawn/dusk",
+            "scene_type": "city_street"
+          }
+        },
+        {
+          "image_id": "test_img_017",
+          "prediction": {
+            "category_id": 8,
+            "bbox": [
+              191,
+              258,
+              93,
+              143
+            ],
+            "score": 0.48622996585197054,
+            "image_id": "test_img_017"
+          },
+          "ground_truth": {
+            "category_id": 5,
+            "bbox": [
+              201,
+              276,
+              94,
+              152
+            ],
+            "area": 19029,
+            "image_id": "test_img_017",
+            "weather": "rainy",
+            "lighting": "daytime",
+            "scene_type": "highway"
+          },
+          "predicted_class": "traffic_light",
+          "true_class": "train",
+          "iou": 0.6027771322333256,
+          "confidence": 0.48622996585197054,
+          "metadata": {
+            "image_id": "test_img_017",
+            "weather": "rainy",
+            "lighting": "dawn/dusk",
+            "scene_type": "residential"
+          }
+        },
+        {
+          "image_id": "test_img_017",
+          "prediction": {
+            "category_id": 0,
+            "bbox": [
+              259,
+              500,
+              71,
+              178
+            ],
+            "score": 0.8022279909563458,
+            "image_id": "test_img_017"
+          },
+          "ground_truth": {
+            "category_id": 3,
+            "bbox": [
+              256,
+              487,
+              80,
+              172
+            ],
+            "area": 4333,
+            "image_id": "test_img_017",
+            "weather": "snowy",
+            "lighting": "daytime",
+            "scene_type": "residential"
+          },
+          "predicted_class": "pedestrian",
+          "true_class": "truck",
+          "iou": 0.747170560593024,
+          "confidence": 0.8022279909563458,
+          "metadata": {
+            "image_id": "test_img_017",
+            "weather": "rainy",
+            "lighting": "dawn/dusk",
+            "scene_type": "residential"
+          }
+        }
+      ],
+      "localization_error": [
+        {
+          "image_id": "test_img_008",
+          "prediction": {
+            "category_id": 3,
+            "bbox": [
+              350,
+              295,
+              76,
+              127
+            ],
+            "score": 0.6731760545768082,
+            "image_id": "test_img_008"
+          },
+          "ground_truth": {
+            "category_id": 3,
+            "bbox": [
+              368,
+              315,
+              73,
+              129
+            ],
+            "area": 19276,
+            "image_id": "test_img_008",
+            "weather": "rainy",
+            "lighting": "daytime",
+            "scene_type": "highway"
+          },
+          "class_name": "truck",
+          "iou": 0.4824690974111793,
+          "confidence": 0.6731760545768082,
+          "metadata": {
+            "image_id": "test_img_008",
+            "weather": "rainy",
+            "lighting": "daytime",
+            "scene_type": "city_street"
+          }
+        },
+        {
+          "image_id": "test_img_003",
+          "prediction": {
+            "category_id": 5,
+            "bbox": [
+              112,
+              483,
+              103,
+              102
+            ],
+            "score": 0.5844441133446091,
+            "image_id": "test_img_003"
+          },
+          "ground_truth": {
+            "category_id": 5,
+            "bbox": [
+              166,
+              359,
+              125,
+              144
+            ],
+            "area": 10424,
+            "image_id": "test_img_003",
+            "weather": "rainy",
+            "lighting": "dawn/dusk",
+            "scene_type": "residential"
+          },
+          "class_name": "train",
+          "iou": 0.035602702899077236,
+          "confidence": 0.5844441133446091,
+          "metadata": {
+            "image_id": "test_img_003",
+            "weather": "clear",
+            "lighting": "night",
+            "scene_type": "residential"
+          }
+        },
+        {
+          "image_id": "test_img_009",
+          "prediction": {
+            "category_id": 7,
+            "bbox": [
+              311,
+              60,
+              131,
+              56
+            ],
+            "score": 0.6961180777351047,
+            "image_id": "test_img_009"
+          },
+          "ground_truth": {
+            "category_id": 7,
+            "bbox": [
+              316,
+              46,
+              122,
+              51
+            ],
+            "area": 27845,
+            "image_id": "test_img_009",
+            "weather": "rainy",
+            "lighting": "night",
+            "scene_type": "residential"
+          },
+          "class_name": "bicycle",
+          "iou": 0.49911543564794336,
+          "confidence": 0.6961180777351047,
+          "metadata": {
+            "image_id": "test_img_009",
+            "weather": "snowy",
+            "lighting": "night",
+            "scene_type": "highway"
+          },
+          "failure_type": "localization_error"
+        },
+        {
+          "image_id": "test_img_011",
+          "prediction": {
+            "category_id": 7,
+            "bbox": [
+              8,
+              481,
+              49,
+              89
+            ],
+            "score": 0.9041289089511245,
+            "image_id": "test_img_011"
+          },
+          "ground_truth": {
+            "category_id": 7,
+            "bbox": [
+              25,
+              474,
+              50,
+              97
+            ],
+            "area": 6094,
+            "image_id": "test_img_011",
+            "weather": "rainy",
+            "lighting": "daytime",
+            "scene_type": "highway"
+          },
+          "class_name": "bicycle",
+          "iou": 0.44758761590444757,
+          "confidence": 0.9041289089511245,
+          "metadata": {
+            "image_id": "test_img_011",
+            "weather": "rainy",
+            "lighting": "daytime",
+            "scene_type": "highway"
+          },
+          "failure_type": "localization_error"
+        }
+      ],
+      "duplicate_detection": []
+    },
+    "safety_critical_failures": [
+      {
+        "image_id": "test_img_016",
+        "ground_truth": {
+          "category_id": 1,
+          "bbox": [
+            86,
+            437,
+            116,
+            182
+          ],
+          "area": 25606,
+          "image_id": "test_img_016",
+          "weather": "snowy",
+          "lighting": "dawn/dusk",
+          "scene_type": "residential"
+        },
+        "class_name": "rider",
+        "metadata": {
+          "image_id": "test_img_016",
+          "weather": "snowy",
+          "lighting": "dawn/dusk",
+          "scene_type": "residential"
+        },
+        "failure_type": "false_negative"
+      },
+      {
+        "image_id": "test_img_016",
+        "prediction": {
+          "category_id": 0,
+          "bbox": [
+            311,
+            153,
+            71,
+            54
+          ],
+          "score": 0.1380056359008451,
+          "image_id": "test_img_016"
+        },
+        "class_name": "pedestrian",
+        "confidence": 0.1380056359008451,
+        "metadata": {
+          "image_id": "test_img_016",
+          "weather": "snowy",
+          "lighting": "dawn/dusk",
+          "scene_type": "residential"
+        },
+        "failure_type": "false_positive"
+      },
+      {
+        "image_id": "test_img_002",
+        "ground_truth": {
+          "category_id": 1,
+          "bbox": [
+            749,
+            518,
+            131,
+            181
+          ],
+          "area": 8742,
+          "image_id": "test_img_002",
+          "weather": "snowy",
+          "lighting": "dawn/dusk",
+          "scene_type": "residential"
+        },
+        "class_name": "rider",
+        "metadata": {
+          "image_id": "test_img_002",
+          "weather": "clear",
+          "lighting": "dawn/dusk",
+          "scene_type": "city_street"
+        },
+        "failure_type": "false_negative"
+      },
+      {
+        "image_id": "test_img_014",
+        "ground_truth": {
+          "category_id": 0,
+          "bbox": [
+            342,
+            83,
+            132,
+            101
+          ],
+          "area": 30445,
+          "image_id": "test_img_014",
+          "weather": "rainy",
+          "lighting": "dawn/dusk",
+          "scene_type": "city_street"
+        },
+        "class_name": "pedestrian",
+        "metadata": {
+          "image_id": "test_img_014",
+          "weather": "clear",
+          "lighting": "night",
+          "scene_type": "highway"
+        },
+        "failure_type": "false_negative"
+      },
+      {
+        "image_id": "test_img_018",
+        "ground_truth": {
+          "category_id": 1,
+          "bbox": [
+            241,
+            77,
+            57,
+            141
+          ],
+          "area": 15270,
+          "image_id": "test_img_018",
+          "weather": "rainy",
+          "lighting": "dawn/dusk",
+          "scene_type": "highway"
+        },
+        "class_name": "rider",
+        "metadata": {
+          "image_id": "test_img_018",
+          "weather": "rainy",
+          "lighting": "dawn/dusk",
+          "scene_type": "highway"
+        },
+        "failure_type": "false_negative"
+      },
+      {
+        "image_id": "test_img_018",
+        "prediction": {
+          "category_id": 1,
+          "bbox": [
+            386,
+            75,
+            116,
+            189
+          ],
+          "score": 0.16951799898377426,
+          "image_id": "test_img_018"
+        },
+        "class_name": "rider",
+        "confidence": 0.16951799898377426,
+        "metadata": {
+          "image_id": "test_img_018",
+          "weather": "rainy",
+          "lighting": "dawn/dusk",
+          "scene_type": "highway"
+        },
+        "failure_type": "false_positive"
+      },
+      {
+        "image_id": "test_img_006",
+        "prediction": {
+          "category_id": 0,
+          "bbox": [
+            78,
+            195,
+            148,
+            80
+          ],
+          "score": 0.4719227235732084,
+          "image_id": "test_img_006"
+        },
+        "class_name": "pedestrian",
+        "confidence": 0.4719227235732084,
+        "metadata": {
+          "image_id": "test_img_006",
+          "weather": "clear",
+          "lighting": "night",
+          "scene_type": "highway"
+        },
+        "failure_type": "false_positive"
+      },
+      {
+        "image_id": "test_img_010",
+        "ground_truth": {
+          "category_id": 1,
+          "bbox": [
+            247,
+            86,
+            145,
+            53
+          ],
+          "area": 26345,
+          "image_id": "test_img_010",
+          "weather": "clear",
+          "lighting": "daytime",
+          "scene_type": "residential"
+        },
+        "class_name": "rider",
+        "metadata": {
+          "image_id": "test_img_010",
+          "weather": "overcast",
+          "lighting": "dawn/dusk",
+          "scene_type": "highway"
+        },
+        "failure_type": "false_negative"
+      },
+      {
+        "image_id": "test_img_015",
+        "ground_truth": {
+          "category_id": 6,
+          "bbox": [
+            276,
+            127,
+            133,
+            162
+          ],
+          "area": 34631,
+          "image_id": "test_img_015",
+          "weather": "clear",
+          "lighting": "dawn/dusk",
+          "scene_type": "city_street"
+        },
+        "class_name": "motorcycle",
+        "metadata": {
+          "image_id": "test_img_015",
+          "weather": "clear",
+          "lighting": "dawn/dusk",
+          "scene_type": "city_street"
+        },
+        "failure_type": "false_negative"
+      },
+      {
+        "image_id": "test_img_008",
+        "prediction": {
+          "category_id": 0,
+          "bbox": [
+            530,
+            395,
+            69,
+            86
+          ],
+          "score": 0.5822263793967398,
+          "image_id": "test_img_008"
+        },
+        "class_name": "pedestrian",
+        "confidence": 0.5822263793967398,
+        "metadata": {
+          "image_id": "test_img_008",
+          "weather": "rainy",
+          "lighting": "daytime",
+          "scene_type": "city_street"
+        },
+        "failure_type": "false_positive"
+      },
+      {
+        "image_id": "test_img_000",
+        "prediction": {
+          "category_id": 0,
+          "bbox": [
+            685,
+            403,
+            121,
+            187
+          ],
+          "score": 0.4423129742232428,
+          "image_id": "test_img_000"
+        },
+        "class_name": "pedestrian",
+        "confidence": 0.4423129742232428,
+        "metadata": {
+          "image_id": "test_img_000",
+          "weather": "overcast",
+          "lighting": "night",
+          "scene_type": "city_street"
+        },
+        "failure_type": "false_positive"
+      },
+      {
+        "image_id": "test_img_012",
+        "prediction": {
+          "category_id": 1,
+          "bbox": [
+            13,
+            541,
+            60,
+            99
+          ],
+          "score": 0.2589310226847358,
+          "image_id": "test_img_012"
+        },
+        "class_name": "rider",
+        "confidence": 0.2589310226847358,
+        "metadata": {
+          "image_id": "test_img_012",
+          "weather": "overcast",
+          "lighting": "night",
+          "scene_type": "highway"
+        },
+        "failure_type": "false_positive"
+      },
+      {
+        "image_id": "test_img_009",
+        "ground_truth": {
+          "category_id": 7,
+          "bbox": [
+            344,
+            199,
+            79,
+            148
+          ],
+          "area": 20571,
+          "image_id": "test_img_009",
+          "weather": "overcast",
+          "lighting": "dawn/dusk",
+          "scene_type": "residential"
+        },
+        "class_name": "bicycle",
+        "metadata": {
+          "image_id": "test_img_009",
+          "weather": "snowy",
+          "lighting": "night",
+          "scene_type": "highway"
+        },
+        "failure_type": "false_negative"
+      },
+      {
+        "image_id": "test_img_009",
+        "prediction": {
+          "category_id": 1,
+          "bbox": [
+            482,
+            98,
+            78,
+            175
+          ],
+          "score": 0.4797393380149922,
+          "image_id": "test_img_009"
+        },
+        "class_name": "rider",
+        "confidence": 0.4797393380149922,
+        "metadata": {
+          "image_id": "test_img_009",
+          "weather": "snowy",
+          "lighting": "night",
+          "scene_type": "highway"
+        },
+        "failure_type": "false_positive"
+      },
+      {
+        "image_id": "test_img_009",
+        "prediction": {
+          "category_id": 7,
+          "bbox": [
+            311,
+            60,
+            131,
+            56
+          ],
+          "score": 0.6961180777351047,
+          "image_id": "test_img_009"
+        },
+        "ground_truth": {
+          "category_id": 7,
+          "bbox": [
+            316,
+            46,
+            122,
+            51
+          ],
+          "area": 27845,
+          "image_id": "test_img_009",
+          "weather": "rainy",
+          "lighting": "night",
+          "scene_type": "residential"
+        },
+        "class_name": "bicycle",
+        "iou": 0.49911543564794336,
+        "confidence": 0.6961180777351047,
+        "metadata": {
+          "image_id": "test_img_009",
+          "weather": "snowy",
+          "lighting": "night",
+          "scene_type": "highway"
+        },
+        "failure_type": "localization_error"
+      },
+      {
+        "image_id": "test_img_011",
+        "prediction": {
+          "category_id": 7,
+          "bbox": [
+            8,
+            481,
+            49,
+            89
+          ],
+          "score": 0.9041289089511245,
+          "image_id": "test_img_011"
+        },
+        "ground_truth": {
+          "category_id": 7,
+          "bbox": [
+            25,
+            474,
+            50,
+            97
+          ],
+          "area": 6094,
+          "image_id": "test_img_011",
+          "weather": "rainy",
+          "lighting": "daytime",
+          "scene_type": "highway"
+        },
+        "class_name": "bicycle",
+        "iou": 0.44758761590444757,
+        "confidence": 0.9041289089511245,
+        "metadata": {
+          "image_id": "test_img_011",
+          "weather": "rainy",
+          "lighting": "daytime",
+          "scene_type": "highway"
+        },
+        "failure_type": "localization_error"
+      }
+    ],
+    "failure_patterns": {
+      "class_failure_rates": {
+        "rider": {
+          "false_negative": 4,
+          "false_positive": 3
+        },
+        "car": {
+          "false_negative": 2,
+          "false_positive": 2
+        },
+        "bus": {
+          "false_negative": 1,
+          "false_positive": 1
+        },
+        "pedestrian": {
+          "false_negative": 1,
+          "false_positive": 4
+        },
+        "traffic_sign": {
+          "false_negative": 2
+        },
+        "motorcycle": {
+          "false_negative": 1
+        },
+        "bicycle": {
+          "false_negative": 1,
+          "localization_error": 2
+        },
+        "train": {
+          "false_positive": 1,
+          "localization_error": 1
+        },
+        "truck": {
+          "false_positive": 1,
+          "localization_error": 1
+        }
+      },
+      "classification_confusions": {
+        "rider": {
+          "traffic_light": 1
+        },
+        "train": {
+          "traffic_light": 1
+        },
+        "truck": {
+          "pedestrian": 1
+        }
+      },
+      "confidence_patterns": {
+        "false_positive": {
+          "mean": 0.3705760341489555,
+          "std": 0.13103149133967873,
+          "median": 0.3571049444076773,
+          "min": 0.1380056359008451,
+          "max": 0.5822263793967398
+        },
+        "classification_error": {
+          "mean": 0.6462233077635283,
+          "std": 0.129036480671804,
+          "median": 0.6502119664822685,
+          "min": 0.48622996585197054,
+          "max": 0.8022279909563458
+        },
+        "localization_error": {
+          "mean": 0.7144667886519117,
+          "std": 0.11717424619261563,
+          "median": 0.6846470661559565,
+          "min": 0.5844441133446091,
+          "max": 0.9041289089511245
+        }
+      }
+    },
+    "localization_errors": [],
+    "confidence_analysis": {
+      "false_positive_distribution": {
+        "bins": [
+          0.0,
+          0.1,
+          0.2,
+          0.30000000000000004,
+          0.4,
+          0.5,
+          0.6000000000000001,
+          0.7000000000000001,
+          0.8,
+          0.9,
+          1.0
+        ],
+        "counts": [
+          0,
+          2,
+          1,
+          4,
+          3,
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        "high_confidence_fps": 0,
+        "total_fps": 12
+      },
+      "localization_confidence_correlation": {
+        "correlation": 0.5694300652173756,
+        "mean_confidence": 0.7144667886519117,
+        "mean_iou": 0.3661937129656619
+      }
+    },
+    "contextual_failures": {
+      "weather": {
+        "snowy": {
+          "false_negative": 4,
+          "false_positive": 3,
+          "localization_error": 1
+        },
+        "clear": {
+          "false_negative": 6,
+          "false_positive": 4,
+          "classification_error": 1,
+          "localization_error": 1
+        },
+        "rainy": {
+          "false_negative": 1,
+          "false_positive": 3,
+          "classification_error": 2,
+          "localization_error": 2
+        },
+        "overcast": {
+          "false_negative": 1,
+          "false_positive": 2
+        }
+      },
+      "timeofday": {
+        "unknown": {
+          "false_negative": 12,
+          "false_positive": 12,
+          "classification_error": 3,
+          "localization_error": 4
+        }
+      },
+      "scene": {
+        "unknown": {
+          "false_negative": 12,
+          "false_positive": 12,
+          "classification_error": 3,
+          "localization_error": 4
+        }
+      }
+    },
+    "summary": {
+      "total_failures": 31,
+      "false_negatives": 12,
+      "false_positives": 12,
+      "classification_errors": 3,
+      "localization_errors": 4,
+      "duplicate_detections": 0,
+      "safety_critical_failures": 16,
+      "most_common_failure_type": "false_negative",
+      "most_common_failure_count": 12,
+      "most_problematic_class": "rider",
+      "most_problematic_class_failures": 7
+    }
+  },
+  "performance_patterns": {
+    "class_performance_clusters": {
+      "clusters": {
+        "cluster_0": {
+          "classes": [
+            "car",
+            "truck",
+            "bus",
+            "traffic_light",
+            "traffic_sign"
+          ],
+          "avg_ap": 0.5958,
+          "avg_recall": 0.0,
+          "avg_precision": 0.0,
+          "safety_critical_count": 0,
+          "performance_tier": "fair"
+        },
+        "cluster_1": {
+          "classes": [
+            "pedestrian",
+            "motorcycle"
+          ],
+          "avg_ap": 0.40049999999999997,
+          "avg_recall": 0.583,
+          "avg_precision": 0.6779999999999999,
+          "safety_critical_count": 2,
+          "performance_tier": "poor"
+        },
+        "cluster_2": {
+          "classes": [
+            "rider",
+            "bicycle"
+          ],
+          "avg_ap": 0.21600000000000003,
+          "avg_recall": 0.356,
+          "avg_precision": 0.40049999999999997,
+          "safety_critical_count": 2,
+          "performance_tier": "poor"
+        },
+        "cluster_3": {
+          "classes": [
+            "train"
+          ],
+          "avg_ap": 0.123,
+          "avg_recall": 0.0,
+          "avg_precision": 0.0,
+          "safety_critical_count": 0,
+          "performance_tier": "poor"
+        }
+      },
+      "n_clusters": 4,
+      "total_classes": 10
+    },
+    "environmental_impact": {
+      "weather_impact": {
+        "mean_performance": 0.33475,
+        "std_performance": 0.09960264805716765,
+        "coefficient_of_variation": 0.29754338478616177,
+        "best_condition": {
+          "name": "clear",
+          "score": 0.456
+        },
+        "worst_condition": {
+          "name": "snowy",
+          "score": 0.198
+        },
+        "performance_gap": 0.258,
+        "stability_assessment": "variable"
+      },
+      "lighting_impact": {
+        "mean_performance": 0.334,
+        "std_performance": 0.07754998388136518,
+        "coefficient_of_variation": 0.23218558048312926,
+        "best_condition": {
+          "name": "daytime",
+          "score": 0.423
+        },
+        "worst_condition": {
+          "name": "night",
+          "score": 0.234
+        },
+        "performance_gap": 0.18899999999999997,
+        "stability_assessment": "variable"
+      },
+      "scene_impact": {
+        "mean_performance": 0.4005,
+        "std_performance": 0.05485207379853564,
+        "coefficient_of_variation": 0.13695898576413393,
+        "best_condition": {
+          "name": "highway",
+          "score": 0.489
+        },
+        "worst_condition": {
+          "name": "parking_lot",
+          "score": 0.345
+        },
+        "performance_gap": 0.14400000000000002,
+        "stability_assessment": "stable"
+      }
+    },
+    "object_size_patterns": {
+      "size_performance": {
+        "small": 0.125,
+        "medium": 0.398,
+        "large": 0.524
+      },
+      "size_gap": 0.399,
+      "best_performing_size": "large",
+      "worst_performing_size": "small",
+      "bias_severity": "high",
+      "small_object_challenge": true
+    },
+    "spatial_bias_patterns": {
+      "center_performance": 0.445,
+      "edge_performance": 0.323,
+      "spatial_bias": 0.122,
+      "bias_direction": "center",
+      "bias_severity": 0.122
+    },
+    "confidence_calibration": {
+      "calibration_quality": "unknown",
+      "overconfidence_detected": false,
+      "underconfidence_detected": false,
+      "confidence_distribution": "analysis_needed"
+    },
+    "failure_correlations": {},
+    "performance_degradation": {
+      "degradation_detected": false,
+      "degradation_factors": [],
+      "stability_score": 0.8
+    },
+    "safety_risk_patterns": {
+      "overall_safety_score": 0.678,
+      "safety_classes_performance": {
+        "pedestrian": {
+          "recall": 0.654,
+          "precision": 0.789,
+          "meets_threshold": false
+        },
+        "bicycle": {
+          "recall": 0.289,
+          "precision": 0.345,
+          "meets_threshold": false
+        },
+        "rider": {
+          "recall": 0.423,
+          "precision": 0.456,
+          "meets_threshold": false
+        },
+        "motorcycle": {
+          "recall": 0.512,
+          "precision": 0.567,
+          "meets_threshold": false
+        }
+      },
+      "high_risk_classes": [
+        "pedestrian",
+        "bicycle",
+        "rider",
+        "motorcycle"
+      ],
+      "safety_compliance": false,
+      "critical_safety_gaps": 4
+    },
+    "actionable_insights": [
+      {
+        "category": "Class Performance",
+        "priority": "high",
+        "insight": "Classes pedestrian, motorcycle show poor performance (avg mAP: 0.400)",
+        "recommendation": "Focus training on these classes with data augmentation and class-specific optimizations"
+      },
+      {
+        "category": "Class Performance",
+        "priority": "high",
+        "insight": "Classes rider, bicycle show poor performance (avg mAP: 0.216)",
+        "recommendation": "Focus training on these classes with data augmentation and class-specific optimizations"
+      },
+      {
+        "category": "Class Performance",
+        "priority": "high",
+        "insight": "Classes train show poor performance (avg mAP: 0.123)",
+        "recommendation": "Focus training on these classes with data augmentation and class-specific optimizations"
+      },
+      {
+        "category": "Object Detection",
+        "priority": "high",
+        "insight": "Poor small object detection (mAP: 0.125)",
+        "recommendation": "Implement multi-scale training, feature pyramid networks, or specialized small object detection techniques"
+      },
+      {
+        "category": "Safety Critical",
+        "priority": "critical",
+        "insight": "Safety-critical classes below threshold: pedestrian, bicycle, rider, motorcycle",
+        "recommendation": "Implement safety-focused training with weighted loss, hard negative mining, and extensive validation"
+      }
+    ]
+  },
+  "analysis_metadata": {
+    "test_dataset_size": 20,
+    "analysis_components": [
+      "failure_analyzer",
+      "pattern_detector"
+    ],
+    "test_timestamp": "2024-01-01T00:00:00Z"
+  }
+}

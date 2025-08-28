@@ -1,0 +1,135 @@
+{
+  "performance_clusters": {
+    "error": "Missing COCO metrics"
+  },
+  "robustness_clusters": {
+    "error": "Missing contextual metrics"
+  },
+  "failure_clusters": {
+    "clusters": {
+      "failure_cluster_0": {
+        "classes": [
+          "pedestrian"
+        ],
+        "dominant_failure_mode": "false_positive",
+        "failure_rates": {
+          "false_negative": 0.2,
+          "false_positive": 0.8,
+          "classification_error": 0.0,
+          "localization_error": 0.0,
+          "duplicate_detection": 0.0
+        },
+        "cluster_size": 1,
+        "failure_severity": "critical"
+      },
+      "failure_cluster_1": {
+        "classes": [
+          "bus",
+          "rider",
+          "car"
+        ],
+        "dominant_failure_mode": "false_negative",
+        "failure_rates": {
+          "false_negative": 0.5238095238095238,
+          "false_positive": 0.4761904761904762,
+          "classification_error": 0.0,
+          "localization_error": 0.0,
+          "duplicate_detection": 0.0
+        },
+        "cluster_size": 3,
+        "failure_severity": "critical"
+      },
+      "failure_cluster_2": {
+        "classes": [
+          "motorcycle",
+          "traffic_sign"
+        ],
+        "dominant_failure_mode": "false_negative",
+        "failure_rates": {
+          "false_negative": 1.0,
+          "false_positive": 0.0,
+          "classification_error": 0.0,
+          "localization_error": 0.0,
+          "duplicate_detection": 0.0
+        },
+        "cluster_size": 2,
+        "failure_severity": "critical"
+      },
+      "failure_cluster_3": {
+        "classes": [
+          "train",
+          "truck",
+          "bicycle"
+        ],
+        "dominant_failure_mode": "localization_error",
+        "failure_rates": {
+          "false_negative": 0.1111111111111111,
+          "false_positive": 0.3333333333333333,
+          "classification_error": 0.0,
+          "localization_error": 0.5555555555555555,
+          "duplicate_detection": 0.0
+        },
+        "cluster_size": 3,
+        "failure_severity": "critical"
+      }
+    },
+    "n_clusters": 4,
+    "analyzed_classes": 9
+  },
+  "safety_clusters": {
+    "error": "Missing safety metrics"
+  },
+  "calibration_clusters": {
+    "calibration_analysis": "advanced_analysis_needed",
+    "confidence_reliability": "moderate",
+    "overconfidence_detected": false,
+    "underconfidence_detected": true,
+    "recommendation": "Implement temperature scaling for better calibration"
+  },
+  "advanced_insights": [
+    {
+      "category": "Failure Analysis",
+      "priority": "high",
+      "insight": "Critical failure cluster with dominant mode: false_positive affecting 1 classes",
+      "affected_classes": [
+        "pedestrian"
+      ],
+      "recommendation": "Implement targeted solutions for false_positive failures"
+    },
+    {
+      "category": "Failure Analysis",
+      "priority": "high",
+      "insight": "Critical failure cluster with dominant mode: false_negative affecting 3 classes",
+      "affected_classes": [
+        "bus",
+        "rider",
+        "car"
+      ],
+      "recommendation": "Implement targeted solutions for false_negative failures"
+    },
+    {
+      "category": "Failure Analysis",
+      "priority": "high",
+      "insight": "Critical failure cluster with dominant mode: false_negative affecting 2 classes",
+      "affected_classes": [
+        "motorcycle",
+        "traffic_sign"
+      ],
+      "recommendation": "Implement targeted solutions for false_negative failures"
+    },
+    {
+      "category": "Failure Analysis",
+      "priority": "high",
+      "insight": "Critical failure cluster with dominant mode: localization_error affecting 3 classes",
+      "affected_classes": [
+        "train",
+        "truck",
+        "bicycle"
+      ],
+      "recommendation": "Implement targeted solutions for localization_error failures"
+    }
+  ],
+  "visualization_files": [
+    "evaluation_results/phase4_clustering/failure_mode_clusters.png"
+  ]
+}

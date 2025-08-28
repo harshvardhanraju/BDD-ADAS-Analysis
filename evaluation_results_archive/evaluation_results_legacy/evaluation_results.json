@@ -1,0 +1,457 @@
+{
+  "coco_metrics": {
+    "mAP": 0.0,
+    "mAP@0.5": 0.0,
+    "mAP@0.75": 0.0,
+    "mAP_small": 0.0,
+    "mAP_medium": 0.0,
+    "mAP_large": 0.0,
+    "mAR": 0.0,
+    "mAR_small": 0.0,
+    "mAR_medium": 0.0,
+    "mAR_large": 0.0,
+    "per_class_AP": {
+      "pedestrian": 0.0,
+      "rider": 0.0,
+      "car": 0.0,
+      "truck": 0.0,
+      "bus": 0.0,
+      "train": 0.0,
+      "motorcycle": 0.0,
+      "bicycle": 0.0,
+      "traffic_light": 0.0,
+      "traffic_sign": 0.0
+    },
+    "safety_critical_mAP": 0.0
+  },
+  "safety_metrics": {
+    "per_class_safety": {
+      "pedestrian": {
+        "num_ground_truth": 13262,
+        "num_predictions": 0,
+        "true_positives": 0,
+        "false_positives": 0,
+        "false_negatives": 13262,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "false_negative_rate": 1.0,
+        "false_positive_rate": 0.0,
+        "safety_risk_level": "HIGH_RISK",
+        "meets_safety_standards": false
+      },
+      "rider": {
+        "num_ground_truth": 649,
+        "num_predictions": 0,
+        "true_positives": 0,
+        "false_positives": 0,
+        "false_negatives": 649,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "false_negative_rate": 1.0,
+        "false_positive_rate": 0.0,
+        "safety_risk_level": "HIGH_RISK",
+        "meets_safety_standards": false
+      },
+      "bicycle": {
+        "num_ground_truth": 1007,
+        "num_predictions": 0,
+        "true_positives": 0,
+        "false_positives": 0,
+        "false_negatives": 1007,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "false_negative_rate": 1.0,
+        "false_positive_rate": 0.0,
+        "safety_risk_level": "HIGH_RISK",
+        "meets_safety_standards": false
+      },
+      "motorcycle": {
+        "num_ground_truth": 452,
+        "num_predictions": 0,
+        "true_positives": 0,
+        "false_positives": 0,
+        "false_negatives": 452,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "false_negative_rate": 1.0,
+        "false_positive_rate": 0.0,
+        "safety_risk_level": "HIGH_RISK",
+        "meets_safety_standards": false
+      }
+    },
+    "overall_safety_score": {
+      "overall_safety_score": 0.0,
+      "class_scores": {
+        "pedestrian": 0.0,
+        "rider": 0.0,
+        "bicycle": 0.0,
+        "motorcycle": 0.0
+      },
+      "interpretation": "POOR - Not safe for deployment"
+    },
+    "safety_risk_assessment": {
+      "high_risk_classes": [
+        {
+          "class": "pedestrian",
+          "fnr": 1.0,
+          "recall": 0.0,
+          "issue": "High miss rate - safety critical"
+        },
+        {
+          "class": "rider",
+          "fnr": 1.0,
+          "recall": 0.0,
+          "issue": "High miss rate - safety critical"
+        },
+        {
+          "class": "bicycle",
+          "fnr": 1.0,
+          "recall": 0.0,
+          "issue": "High miss rate - safety critical"
+        },
+        {
+          "class": "motorcycle",
+          "fnr": 1.0,
+          "recall": 0.0,
+          "issue": "High miss rate - safety critical"
+        }
+      ],
+      "medium_risk_classes": [],
+      "acceptable_classes": [],
+      "critical_issues": [
+        "pedestrian: Extremely high false negative rate (100.00%) - UNSAFE",
+        "pedestrian: Very low precision (0.00%) - excessive false alarms",
+        "rider: Extremely high false negative rate (100.00%) - UNSAFE",
+        "rider: Very low precision (0.00%) - excessive false alarms",
+        "bicycle: Extremely high false negative rate (100.00%) - UNSAFE",
+        "bicycle: Very low precision (0.00%) - excessive false alarms",
+        "motorcycle: Extremely high false negative rate (100.00%) - UNSAFE",
+        "motorcycle: Very low precision (0.00%) - excessive false alarms"
+      ]
+    },
+    "safety_compliance": {
+      "overall_compliant": false,
+      "class_compliance": {
+        "pedestrian": {
+          "compliant": false,
+          "violations": [
+            "FNR (100.00%) > 10.0%",
+            "Precision (0.00%) < 70.0%",
+            "Recall (0.00%) < 80.0%"
+          ]
+        },
+        "rider": {
+          "compliant": false,
+          "violations": [
+            "FNR (100.00%) > 10.0%",
+            "Precision (0.00%) < 70.0%",
+            "Recall (0.00%) < 80.0%"
+          ]
+        },
+        "bicycle": {
+          "compliant": false,
+          "violations": [
+            "FNR (100.00%) > 10.0%",
+            "Precision (0.00%) < 70.0%",
+            "Recall (0.00%) < 80.0%"
+          ]
+        },
+        "motorcycle": {
+          "compliant": false,
+          "violations": [
+            "FNR (100.00%) > 10.0%",
+            "Precision (0.00%) < 70.0%",
+            "Recall (0.00%) < 80.0%"
+          ]
+        }
+      },
+      "violations": [
+        "pedestrian: FNR (100.00%) > 10.0%",
+        "pedestrian: Precision (0.00%) < 70.0%",
+        "pedestrian: Recall (0.00%) < 80.0%",
+        "rider: FNR (100.00%) > 10.0%",
+        "rider: Precision (0.00%) < 70.0%",
+        "rider: Recall (0.00%) < 80.0%",
+        "bicycle: FNR (100.00%) > 10.0%",
+        "bicycle: Precision (0.00%) < 70.0%",
+        "bicycle: Recall (0.00%) < 80.0%",
+        "motorcycle: FNR (100.00%) > 10.0%",
+        "motorcycle: Precision (0.00%) < 70.0%",
+        "motorcycle: Recall (0.00%) < 80.0%"
+      ],
+      "recommendations": [
+        "URGENT: Improve pedestrian recall - consider increasing class weights, adding hard negative mining, or collecting more training data",
+        "Improve pedestrian detection sensitivity - lower confidence thresholds or enhance training data with difficult examples",
+        "Reduce pedestrian false alarms - improve data quality or add negative examples to training data",
+        "URGENT: Improve rider recall - consider increasing class weights, adding hard negative mining, or collecting more training data",
+        "Improve rider detection sensitivity - lower confidence thresholds or enhance training data with difficult examples",
+        "Reduce rider false alarms - improve data quality or add negative examples to training data",
+        "URGENT: Improve bicycle recall - consider increasing class weights, adding hard negative mining, or collecting more training data",
+        "Improve bicycle detection sensitivity - lower confidence thresholds or enhance training data with difficult examples",
+        "Reduce bicycle false alarms - improve data quality or add negative examples to training data",
+        "URGENT: Improve motorcycle recall - consider increasing class weights, adding hard negative mining, or collecting more training data",
+        "Improve motorcycle detection sensitivity - lower confidence thresholds or enhance training data with difficult examples",
+        "Reduce motorcycle false alarms - improve data quality or add negative examples to training data"
+      ]
+    }
+  },
+  "environmental_metrics": {
+    "weather_performance": {
+      "clear": {
+        "precision": 0.000661,
+        "recall": 0.0035628429438461454,
+        "f1_score": 0.0011151168342153608,
+        "ap": 2.355039185882302e-06,
+        "true_positives": 661,
+        "false_positives": 999339,
+        "false_negatives": 184865,
+        "num_images": 10000,
+        "num_objects": 185526
+      }
+    },
+    "lighting_performance": {
+      "daytime": {
+        "precision": 0.000661,
+        "recall": 0.0035628429438461454,
+        "f1_score": 0.0011151168342153608,
+        "ap": 2.355039185882302e-06,
+        "true_positives": 661,
+        "false_positives": 999339,
+        "false_negatives": 184865,
+        "num_images": 10000,
+        "num_objects": 185526
+      }
+    },
+    "scene_performance": {
+      "city street": {
+        "precision": 0.000661,
+        "recall": 0.0035628429438461454,
+        "f1_score": 0.0011151168342153608,
+        "ap": 2.355039185882302e-06,
+        "true_positives": 661,
+        "false_positives": 999339,
+        "false_negatives": 184865,
+        "num_images": 10000,
+        "num_objects": 185526
+      }
+    },
+    "environmental_summary": {
+      "best_conditions": {
+        "weather_performance": {
+          "condition": "clear",
+          "f1_score": 0.0011151168342153608
+        },
+        "lighting_performance": {
+          "condition": "daytime",
+          "f1_score": 0.0011151168342153608
+        },
+        "scene_performance": {
+          "condition": "city street",
+          "f1_score": 0.0011151168342153608
+        }
+      },
+      "worst_conditions": {
+        "weather_performance": {
+          "condition": "clear",
+          "f1_score": 0.0011151168342153608
+        },
+        "lighting_performance": {
+          "condition": "daytime",
+          "f1_score": 0.0011151168342153608
+        },
+        "scene_performance": {
+          "condition": "city street",
+          "f1_score": 0.0011151168342153608
+        }
+      },
+      "condition_impact": {
+        "weather_performance": {
+          "mean_f1": 0.0011151168342153608,
+          "std_f1": 0.0,
+          "variance_ratio": 0.0
+        },
+        "lighting_performance": {
+          "mean_f1": 0.0011151168342153608,
+          "std_f1": 0.0,
+          "variance_ratio": 0.0
+        },
+        "scene_performance": {
+          "mean_f1": 0.0011151168342153608,
+          "std_f1": 0.0,
+          "variance_ratio": 0.0
+        }
+      },
+      "robustness_analysis": {
+        "average_variance_ratio": 0.0,
+        "assessment": "ROBUST - Consistent across conditions"
+      }
+    }
+  },
+  "characteristic_metrics": {
+    "size_performance": {
+      "tiny": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "ap": 0.0,
+        "true_positives": 0,
+        "false_positives": 783800,
+        "false_negatives": 38121,
+        "num_objects": 38121,
+        "avg_area": 160.76371465293818
+      },
+      "small": {
+        "precision": 9.461732548359966e-06,
+        "recall": 0.00013930163447251114,
+        "f1_score": 1.7719884072580643e-05,
+        "ap": 1.3180348089283013e-09,
+        "true_positives": 9,
+        "false_positives": 951191,
+        "false_negatives": 64599,
+        "num_objects": 64608,
+        "avg_area": 545.1642783624575
+      },
+      "medium": {
+        "precision": 0.0003405349794238683,
+        "recall": 0.005547269101208333,
+        "f1_score": 0.0006416786779480628,
+        "ap": 1.8890391692386402e-06,
+        "true_positives": 331,
+        "false_positives": 971669,
+        "false_negatives": 59338,
+        "num_objects": 59669,
+        "avg_area": 3107.10268029983
+      },
+      "large": {
+        "precision": 0.0003895475441567868,
+        "recall": 0.013922518159806295,
+        "f1_score": 0.0007578895834902463,
+        "ap": 5.423482757630809e-06,
+        "true_positives": 322,
+        "false_positives": 826278,
+        "false_negatives": 22806,
+        "num_objects": 23128,
+        "avg_area": 43773.70460424222
+      }
+    },
+    "position_performance": {
+      "top_left": {
+        "precision": 0.00013518080432578573,
+        "recall": 0.00484202881007142,
+        "f1_score": 0.00026301859870266075,
+        "ap": 6.545493491140817e-07,
+        "true_positives": 40,
+        "false_positives": 295860,
+        "false_negatives": 8221,
+        "num_objects": 8261
+      },
+      "top_center": {
+        "precision": 4.443210219383504e-05,
+        "recall": 0.0011725906925613779,
+        "f1_score": 8.561987451337141e-05,
+        "ap": 5.210066948342695e-08,
+        "true_positives": 16,
+        "false_positives": 360084,
+        "false_negatives": 13629,
+        "num_objects": 13645
+      },
+      "top_right": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "ap": 0.0,
+        "true_positives": 0,
+        "false_positives": 292700,
+        "false_negatives": 6914,
+        "num_objects": 6914
+      },
+      "middle_left": {
+        "precision": 0.0005122152720405996,
+        "recall": 0.010961810466760962,
+        "f1_score": 0.0009786986465093834,
+        "ap": 5.614806730289458e-06,
+        "true_positives": 434,
+        "false_positives": 846866,
+        "false_negatives": 39158,
+        "num_objects": 39592
+      },
+      "middle_center": {
+        "precision": 0.00018437131525351057,
+        "recall": 0.0020362981992967668,
+        "f1_score": 0.0003381277356155645,
+        "ap": 3.7543497725270007e-07,
+        "true_positives": 172,
+        "false_positives": 932728,
+        "false_negatives": 84295,
+        "num_objects": 84467
+      },
+      "middle_right": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "ap": 0.0,
+        "true_positives": 0,
+        "false_positives": 711800,
+        "false_negatives": 23809,
+        "num_objects": 23809
+      },
+      "bottom_left": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "ap": 0.0,
+        "true_positives": 0,
+        "false_positives": 113700,
+        "false_negatives": 2867,
+        "num_objects": 2867
+      },
+      "bottom_center": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "ap": 0.0,
+        "true_positives": 0,
+        "false_positives": 86000,
+        "false_negatives": 3683,
+        "num_objects": 3683
+      },
+      "bottom_right": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "ap": 0.0,
+        "true_positives": 0,
+        "false_positives": 131400,
+        "false_negatives": 2288,
+        "num_objects": 2288
+      }
+    },
+    "characteristic_summary": {
+      "size_trends": {
+        "tiny": 0.0,
+        "small": 1.7719884072580643e-05,
+        "medium": 0.0006416786779480628,
+        "large": 0.0007578895834902463
+      },
+      "position_bias": {
+        "top_left": 0.00026301859870266075,
+        "top_center": 8.561987451337141e-05,
+        "top_right": 0.0,
+        "middle_left": 0.0009786986465093834,
+        "middle_center": 0.0003381277356155645,
+        "middle_right": 0.0,
+        "bottom_left": 0.0,
+        "bottom_center": 0.0,
+        "bottom_right": 0.0
+      },
+      "recommendations": [
+        "Small object detection needs improvement - consider multi-scale training",
+        "Strong position bias detected - model may be learning shortcuts"
+      ]
+    }
+  }
+}
