@@ -148,17 +148,12 @@ image_scales = [480, 512, 544, 576, 608, 640, 672, 704, 736, 768, 800]
 
 ## Expected Performance Benefits
 
-### 1. **Accuracy Improvements**
-- **Small Object Detection**: +15-25% mAP for traffic signs/lights
-- **Dense Scene Handling**: +10-20% mAP in complex scenarios
-- **Rare Class Detection**: +30-50% mAP for train/rider/bus
-
-### 2. **Architectural Advantages**
+### 1. **Architectural Advantages**
 - **End-to-End Training**: Simplified pipeline
 - **No Hyperparameter Tuning**: No anchor boxes to optimize
 - **Interpretability**: Attention maps show what model focuses on
 
-### 3. **Deployment Benefits**
+### 2. **Deployment Benefits**
 - **Consistent Performance**: No NMS threshold tuning
 - **Parallel Processing**: All objects detected simultaneously
 - **Memory Efficiency**: Deformable variant uses less memory
@@ -184,11 +179,6 @@ image_scales = [480, 512, 544, 576, 608, 640, 672, 704, 736, 768, 800]
 - Add spatial position encoding
 - Multi-scale training strategy
 
-### Phase 3: Production
-- Model optimization and quantization
-- Real-time inference pipeline
-- Deployment-ready checkpoint
-
 ## Conclusion
 
 DETR's transformer-based architecture aligns perfectly with BDD100K's challenges:
@@ -200,5 +190,3 @@ DETR's transformer-based architecture aligns perfectly with BDD100K's challenges
 Our analysis shows DETR is the optimal choice for autonomous driving object detection on BDD100K dataset.
 
 ---
-*Document generated based on comprehensive BDD100K dataset analysis*
-*Date: 2025-01-23*
