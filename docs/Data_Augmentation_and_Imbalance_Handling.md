@@ -50,48 +50,22 @@ training_transforms = A.Compose([
 ))
 ```
 
-### 2. Augmentation Categories and Rationale
-
-#### A. **Geometric Augmentations**
-```python
-A.Resize(height=512, width=512)              # Standard input size
-A.HorizontalFlip(p=0.5)                      # Left-right symmetry
-```
 **Purpose**: 
 - **Resize**: Standardizes input to DETR's expected resolution
 - **Horizontal Flip**: Increases dataset diversity, simulates different road orientations
 - **Driving Context**: Roads can be traversed in both directions
 
-#### B. **Photometric Augmentations**
-```python
-A.RandomBrightnessContrast(p=0.3)           # Lighting conditions
-A.HueSaturationValue(p=0.3)                 # Color variations
-A.RandomGamma(p=0.2)                        # Exposure adjustments
-```
 **Purpose**:
 - **Brightness/Contrast**: Simulates different lighting conditions (dawn, dusk, overcast)
 - **HSV**: Handles different camera sensors and color profiles
 - **Gamma**: Mimics various camera exposure settings
 - **Driving Context**: Autonomous vehicles operate in diverse lighting conditions
 
-#### C. **Noise and Quality Augmentations**
-```python
-A.GaussNoise(p=0.2)                         # Sensor noise
-A.Blur(blur_limit=3, p=0.1)                 # Motion blur
-```
 **Purpose**:
 - **Gaussian Noise**: Simulates camera sensor noise, especially in low light
 - **Motion Blur**: Simulates camera motion during vehicle movement
 - **Driving Context**: Real-world driving conditions include sensor imperfections
 
-#### D. **Normalization**
-```python
-A.Normalize(mean=[0.485, 0.456, 0.406],     # ImageNet statistics
-            std=[0.229, 0.224, 0.225])
-```
-**Purpose**:
-- **Pretrained Compatibility**: Matches ImageNet preprocessing for ResNet-50 backbone
-- **Numerical Stability**: Ensures proper gradient flow during training
 
 
 ## ⚖️ Class Imbalance Handling Techniques
@@ -375,16 +349,5 @@ Our data augmentation and class imbalance handling approach combines:
 1. **Dataset-Driven Design**: Augmentations chosen specifically for driving scenarios
 2. **Extreme Imbalance Handling**: Techniques for 5,244:1 class ratios
 3. **Safety-First Approach**: Prioritizes rare but critical classes (trains, riders)
-4. **Production Ready**: Robust implementation with proper error handling
-
-### 📈 **Expected Impact**
-- **Overall Performance**: 64% mAP improvement over naive training
-- **Rare Class Detection**: 700% improvement for critical classes
-- **Robustness**: Enhanced performance across lighting/weather conditions
-- **Safety**: Better detection of critical but rare safety hazards
-
-This approach provides a solid foundation for autonomous driving object detection, with room for further enhancement through advanced techniques like curriculum learning and contrastive training for rare classes.
 
 ---
-*Document created: 2025-01-23*  
-*Implementation status: Production ready with enhancement roadmap*
